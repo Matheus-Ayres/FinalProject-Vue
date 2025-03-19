@@ -14,30 +14,11 @@
   --black: rgb(12, 12, 12);
 }
 
-nav{
+.loginCard{
   display: flex;
+  justify-content: center;
   align-items: center;
-  background-color: var(--purple);
-  max-height: 9vh;
-  border-bottom: var(--purp2) solid 2px;
-  padding: 15px;
+  margin: 100px;
+  background-color: red;
+  
 }
-
-.search{
-  width: 200px;
-  font-size: 1rem;
-  background-image: url('lupa.png');
-  margin-left: 40px;
-  background-size: 20px;
-  background-repeat: no-repeat;
-  background-position: 10px;
-  padding: 5px 5px 5px 40px;
-  transition: 0.4s ease-in-out;
-  border: #C471CD solid 2px;
-  border-radius: 45px;
-}
-
-.search:focus{
-  width: 500px;
-}
-
