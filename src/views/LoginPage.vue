@@ -1,4 +1,5 @@
 <script setup>
+import InputsComponent from '@/components/InputsComponent.vue';
 import NavHeader from '@/components/NavHeader.vue';
 
 
@@ -6,12 +7,20 @@ import NavHeader from '@/components/NavHeader.vue';
 
 <template>
 <div class="body">
-    <NavHeader/>
-        <main class="loginCard">
-            <div>
-                <p>
-                    Login
+        <main>
+            <nav>
+                <p class="Techplace">
+                    Techplace
                 </p>
+            </nav>
+            <div class="pg">
+                <img src="/src/assets/login.svg" class="loginIMG">
+            
+                <div class="loginCard">
+                    <h1 class="loginCardTitle">
+                        Login
+                    </h1>
+                </div>
             </div>
         </main>
     </div>
@@ -19,11 +28,16 @@ import NavHeader from '@/components/NavHeader.vue';
 
 <style scoped>
     .body{
-        background: rgb(245,240,249);
-        background: linear-gradient(166deg, white 0%, var(--purp2) 25%, rgba(27,21,12,1) 100%);   background-repeat: no-repeat;
+        background-color: black;
+        background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
         width: 100%;
         height: 100vh;
+        overflow: hidden;
+    }
+
+    .loginCard{
+        
     }
 </style>

@@ -8,17 +8,60 @@
   src: url(./Fonts/Rowdies/Rowdies-Bold.ttf);
 }
 
+@font-face {
+  font-family: "robotoItalic";
+  src: url(./Fonts/Roboto/Roboto-Italic-VariableFont_wdth\,wght.ttf);
+}
+
 :root{
   --purple: #6D1A77;
   --purp2: #C471CD;
   --black: rgb(12, 12, 12);
 }
 
+.Techplace{
+  color: white;
+  font-family: titles;
+  text-shadow: 3px 2px 0 black;
+  font-size: 2rem;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.loginIMG{
+  max-width: 50vw;
+  opacity: 1;
+	animation-name: fadeIn;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes  {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+.pg{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.loginCardTitle{
+  color: white;
+  font-family: "Roboto";
+  margin-top: 50px;
+}
+
 .loginCard{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 100px;
-  background-color: red;
-  
+  margin: 0 10%;
+  background-color: #FFFFFF1A;
+  padding: 10px 40px 50px 40px;
+  border-radius: 20px;
 }
