@@ -24,9 +24,9 @@ function CursorOutUser(){
         
         <diV v-if="cursor"  class="loginPosition">
             <RouterLink to="/Login" style="text-decoration: none">
-                <span class="loginStyle">
+                <p class="loginStyle">
                     Login
-                </span>
+                </p>
             </RouterLink>
             <span class="loginStyle">
                 Sign Up
@@ -34,27 +34,28 @@ function CursorOutUser(){
         </diV>
 
         <div @click="CursorInUser" class="userIconPosition">
-            <img src="../assets/userIcon.png" class="userIcon">
+            <img src="../assets/icons/userIcon.png" class="userIcon">
             
         </div>
     </nav>
 </template>
 
 <style scoped>
-.Techplace{
-    color: white;
-    font-family: titles;
-    text-shadow: 3px 2px 0 black;
-    font-size: 2rem;
-    padding: 8px;
-    text-decoration: none;
-}
 
-.Techplace:hover{
-    background-color: var(--purp2);
-    border-radius: 15px;
-    transition: 0.2s;
-}
+    .Techplace{
+        color: white;
+        font-family: titles;
+        text-shadow: 3px 2px 0 black;
+        font-size: 2rem;
+        text-decoration: none;
+        padding: 8px;
+    }
+
+    .Techplace:hover{
+        background-color: var(--purp2);
+        border-radius: 15px;
+        transition: 0.2s;
+    }
 
 .header{
 display: flex;
@@ -68,7 +69,7 @@ padding: 20px;
 .search{
 width: 200px;
 font-size: 1rem;
-background-image: url('/src/assets/lupa.png');
+background-image: url('/src/assets/icons/lupa.png');
 margin-left: 40px;
 background-size: 20px;
 background-repeat: no-repeat;
