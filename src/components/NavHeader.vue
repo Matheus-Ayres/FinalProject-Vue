@@ -1,141 +1,110 @@
 <script setup>
-import { ref } from 'vue';
 
-const cursor = ref(false)
-
-function CursorInUser(){
-    cursor.value = true
-}
-
-function CursorOutUser(){
-    cursor.value = false
-}
 
 </script>
 
 <template>
-    <nav  @mouseleave="CursorOutUser" class="header">
-        <RouterLink to="/" class="Techplace">
-            Techplace
-        </RouterLink>
-        <div>
-            <input type="text" placeholder="Search" class="search">
+    <nav class="header">
+        <div class="pages">
+            <p class="techplace">
+                TECHPLACE
+            </p>
+            <RouterLink to="/" class="navPagesTitles">
+                <p>
+                    Catalog
+                </p>       
+            </RouterLink>
         </div>
-        
-        <diV v-if="cursor"  class="loginPosition">
-            <RouterLink to="/Login" style="text-decoration: none">
-                <p class="loginStyle">
-                    Login
+        <diV class="loginPosition">
+            <RouterLink to="/Login" class="loginStyle">
+                <p>
+                    LOGIN
                 </p>
             </RouterLink>
-            <span class="loginStyle">
-                Sign Up
-            </span>
+            <RouterLink to="Register" class="registerStyle">
+                <p >
+                    REGISTER
+                </p>
+            </RouterLink>
         </diV>
-
-        <div @click="CursorInUser" class="userIconPosition">
-            <img src="../assets/icons/userIcon.png" class="userIcon">
-            
-        </div>
+        
     </nav>
 </template>
 
 <style scoped>
 
-    .Techplace{
-        color: white;
-        font-family: titles;
-        text-shadow: 3px 2px 0 black;
-        font-size: 2rem;
-        text-decoration: none;
-        padding: 8px;
-    }
+.techplace{
+color: white;
+font-family: titles;
+font-size: 2rem;
 
-    .Techplace:hover{
-        background-color: var(--purp2);
-        border-radius: 15px;
-        transition: 0.2s;
-    }
+margin-right: 80px;
+}
+
+.pages{
+    display: flex;
+    align-items: center;
+    
+}
+
+.navPagesTitles{
+    color: white;
+    font-family: "openSans";
+    font-size: 1.2rem;
+    text-decoration: none;
+}
 
 .header{
-display: flex;
-align-items: center;
-background-color: var(--purple);
-max-height: 10vh;
-border-bottom: var(--purp2) solid 2px;
-padding: 20px;
-}
-
-.search{
-width: 200px;
-font-size: 1rem;
-background-image: url('/src/assets/icons/lupa.png');
-margin-left: 40px;
-background-size: 20px;
-background-repeat: no-repeat;
-background-position: 10px;
-padding: 5px 5px 5px 40px;
-transition: 0.4s ease-in-out;
-border: var(--purp2) solid 2px;
-border-radius: 45px;
-}
-
-.search:focus{
-width: 500px;
-}
-
-.userIcon{
-background-color: white;
-width: 100%;
-height: 100%;
-border-radius: 100%;
-}
-
-.userIconPosition{
-display: flex;
-align-self: end;
-margin-left: auto;
-width: 50px;
-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--purpleDark);
+    max-height: 10vh;
+    margin: 20px 60px;
 }
 
 .loginPosition{
-margin-left: 780px;
-display: flex;
-flex-direction: column;
-gap: 8px;
-position: relative;
-animation-name: MoveToTheLeft;
-animation-duration: 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+    font-size: 1.3rem;
 }
 
 .loginStyle{
-font-family: titles;
-color: white;
-font-size: 1.22rem;
-transition: 0.2s;
-padding: 0 6px 0 6px;
+    color: white;
+    font-family: "openSans";
+    text-decoration: none;
+    transition: 0.5s;
 }
+
+.loginStyle:visited {
+        color: white
+	}
 
 .loginStyle:hover{
-background-color: var(--purp2);
-border-radius: 10px;
-transform: scale(1.1);
-cursor: pointer;
+    transform: scale(1.1);
 }
 
-@keyframes MoveToTheLeft{
-from {
-translate: 20px 0;
+
+.registerStyle{
+    font-family: "openSans";
+    background-color: var(--lightPurple);
+    color: var(--purple);
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 5px;
+    transition: 0.5s;
+    text-decoration: none;
 }
 
-to {
-translate: 0 0;
-}
+.registerStyle:hover{
+    background-color: var(--purple);
+    color: var(--lightPurple);
+    transform: scale(1.1);
 }
 
-.userIcon:hover{
-background-color: var(--purp2);
-cursor: pointer;
-}
+
+
+
 </style>

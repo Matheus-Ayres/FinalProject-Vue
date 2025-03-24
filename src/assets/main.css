@@ -13,92 +13,26 @@
   src: url(./Fonts/Roboto/Roboto-Italic-VariableFont_wdth\,wght.ttf);
 }
 
+@font-face {
+  font-family: "openSans";
+  src: url(/src/assets/Fonts/OpenSans-VariableFont_wdth\,wght.ttf);
+}
+
 :root{
-  --purple: #6D1A77;
+  --purple: #651FFF;
+  --purpleDark: #221364;
+  --lightPurple: #D1C4E9;
   --purp2: #C471CD;
-  --black: rgb(12, 12, 12);
+  --selected: rgba(0, 0, 0, 0.42);
+  --textSec: #FAFAFA;
+  --gray:  #424242;
+  --dark: #303030;
+}
+
+body{
+  background-color: var(--purpleDark);
+  width: 100%;
+  height: 100vh;
 }
 
 
-
-.loginIMG{
-  max-width: 50vw;
-  opacity: 1;
-	animation-name: fadeIn;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration: 0.5s;
-}
-
-@keyframes fadeIn{
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-
-
-.pg{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
-}
-
-.loginCardTitle{
-  color: white;
-  font-family: "Roboto";
-  margin-top: 150px;
-  font-size: 3rem;
-}
-
-.loginCard{
-  margin: 0 10%;
-  background-color: #ffffff07;
-  padding: 10px 40px 50px 40px;
-  border-radius: 20px;
-  border: white solid 2px;
-  animation-name: fadeIn;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration: 1s;
-  transition: 0.3s ease-out;
-}
-
-
-
-.eyes{
-  background-color: white;
-  width: 30px;
-  padding: 5px;
-  border-radius: 20px;
-}
-
-.eyes:hover{
-  cursor: pointer;
-}
-
-.buttonPosition{
-  text-align: center;
-  margin-top: 50px;
-}
-
-.loginButton{
-  font-family: "Roboto";
-  font-weight: bold;
-  color: white;
-  padding: 10px 150px;
-  font-size: 1.5rem;
-  background-image: linear-gradient(to right,#628EFF, #8740CD, #580475);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;  
-  transition: 0.2s ease-in-out;
-}
-
-.loginButton:hover{
-  border: white 1px solid;
-  transform: scale(1.05);
-}

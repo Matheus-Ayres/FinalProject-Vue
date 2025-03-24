@@ -26,28 +26,29 @@ function seePassword(){
 <div class="body">
         <main>
             <div class="pg">
-                <img src="/src/assets/login.svg" class="loginIMG">
-                <div class="loginCard">
-                    <h1 class="loginCardTitle">
-                        Login
+                <img src="/src/assets/Register.svg" class="registerIMG">
+                <div class="registerCard">
+                    <h1 class="registerCardTitle">
+                        Register
                     </h1>
                     <div class="inputPosition">
                             <input type="email" placeholder="Email" class="inputEmail">
-                            <input :type="visible" placeholder="Password" class="inputPassword">
+                            <input :type="visible" placeholder="Create Password" class="inputPassword">
+                            <input :type="visible" placeholder="Confirm Password" class="inputPassword">
                         <img @click="seePassword" :src="eye" class="eyes">
                     </div>
                     <div class="buttonPosition">
-                        <button class="loginButton" type="submit">
-                            LOGIN
+                        <button class="registerButton" type="submit">
+                            REGISTER
                         </button>
                     </div>
                     <div class="createAccount">
                         <p>
-                            Don't have an account?
+                            Already have an account?
                         </p>
-                        <RouterLink to="Register">
+                        <RouterLink to="Login">
                             <span class="register">
-                                REGISTER
+                                LOGIN
                             </span>
                         </RouterLink>
                     </div>
@@ -114,7 +115,7 @@ color: rgba(255, 255, 255, 0.329);
 font-family: "roboto";
 }
 
-.loginIMG{
+.registerIMG{
 max-width: 50vw;
 opacity: 1;
 animation-name: fadeIn;
@@ -140,14 +141,14 @@ grid-template-columns: repeat(2, 1fr);
 gap: 50px;
 }
 
-.loginCardTitle{
+.registerCardTitle{
 color: white;
 font-family: "Roboto";
 margin-top: 100px;
 font-size: 3rem;
 }
 
-.loginCard{
+.registerCard{
 margin: 5% 10%;
 background-color: #ffffff07;
 padding: 10px 40px 50px 40px;
@@ -178,7 +179,7 @@ text-align: center;
 margin-top: 30px;
 }
 
-.loginButton{
+.registerButton{
 font-family: "Roboto";
 font-weight: bold;
 color: white;
@@ -191,7 +192,7 @@ cursor: pointer;
 transition: 0.2s ease-in-out;
 }
 
-.loginButton:hover{
+.registerButton:hover{
 border: white 1px solid;
 transform: scale(1.05);
 }

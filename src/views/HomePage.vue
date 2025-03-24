@@ -1,4 +1,5 @@
 <script setup>
+import CatalogHeader from '@/components/CatalogHeader.vue';
 import NavHeader from '@/components/NavHeader.vue';
 
 
@@ -6,6 +7,7 @@ import NavHeader from '@/components/NavHeader.vue';
 
 <template>
     <NavHeader/>
+    <CatalogHeader/>
 </template>
 
 <style scoped>
