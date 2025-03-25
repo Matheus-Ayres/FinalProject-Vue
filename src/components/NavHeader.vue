@@ -1,4 +1,7 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth.js'
+
+const authUser = useAuthStore()
 
 
 </script>
@@ -15,7 +18,7 @@
                 </p>       
             </RouterLink>
         </div>
-        <diV class="loginPosition">
+        <diV v-if="!authUser.isAuthenticated" class="loginPosition" >
             <RouterLink to="/Login" class="loginStyle">
                 <p>
                     LOGIN
@@ -28,6 +31,13 @@
             </RouterLink>
         </diV>
         
+        <div v-else class="loginPosition">
+            <RouterLink @click="authUser.logout()" class="registerStyle" to="Login">
+                <p>
+                    Logout
+                </p>    
+            </RouterLink>
+        </div>
     </nav>
 </template>
 
@@ -103,8 +113,5 @@ margin-right: 80px;
     color: var(--lightPurple);
     transform: scale(1.1);
 }
-
-
-
 
 </style>

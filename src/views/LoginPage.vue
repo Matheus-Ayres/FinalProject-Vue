@@ -1,12 +1,43 @@
 <script setup>
 import NavHeader from '@/components/NavHeader.vue';
 import { ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.js'
+import { login } from '@/services/http.js'
+import router from '@/router';
+
+
+
+const authUser = useAuthStore() 
+
+const email = ref('')
+const password = ref('')
+
+
+async function submit() {
+    const result = await login( 
+        {
+            email: email.value,
+            password: password.value    
+        }
+    )
+    console.log(result)
+
+    if (result.status >= 200 && result.status < 300){
+        alert('Deu boa')
+        authUser.saveUser(result.data)
+        router.push('/')
+    }
+    else{
+        console.log('Login deu ruim')
+    }
+}
 
 const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
 const closeEye = ref("/src/assets/icons/closeEye.png")
 
 const visible = ref ("password")
+
 
 function seePassword(){
     if(eye.value == openEye.value){
@@ -19,6 +50,7 @@ function seePassword(){
 
 }
 
+
 </script>
 
 <template>
@@ -27,13 +59,15 @@ function seePassword(){
         <main>
             <div class="pg">
                 <img src="/src/assets/login.svg" class="loginIMG">
-                <div class="loginCard">
+                <div class="loginCard">  
+                
                     <h1 class="loginCardTitle">
                         Login
                     </h1>
+                <form @submit.prevent="submit">
                     <div class="inputPosition">
-                            <input type="email" placeholder="Email" class="inputEmail">
-                            <input :type="visible" placeholder="Password" class="inputPassword">
+                            <input v-model="email" type="email" placeholder="Email" class="inputEmail">
+                            <input v-model="password" :type="visible" placeholder="Password" class="inputPassword">
                         <img @click="seePassword" :src="eye" class="eyes">
                     </div>
                     <div class="buttonPosition">
@@ -41,6 +75,7 @@ function seePassword(){
                             LOGIN
                         </button>
                     </div>
+                </form>
                     <div class="createAccount">
                         <p>
                             Don't have an account?

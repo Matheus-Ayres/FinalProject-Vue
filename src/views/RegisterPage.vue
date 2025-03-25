@@ -1,12 +1,16 @@
 <script setup>
 import NavHeader from '@/components/NavHeader.vue';
 import { ref } from 'vue';
+import { register } from '@/services/http';
 
 const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
 const closeEye = ref("/src/assets/icons/closeEye.png")
-
 const visible = ref ("password")
+const email = ref('')
+const password = ref('')
+const name = ref('')
+
 
 function seePassword(){
     if(eye.value == openEye.value){
@@ -17,6 +21,18 @@ function seePassword(){
         visible.value = "password"
     }
 
+}
+
+
+
+async function submit() {
+    const result = await register(
+        {
+        email: email.value,
+        password: password.value,
+        name: name.value
+        }
+    )
 }
 
 </script>
@@ -32,9 +48,10 @@ function seePassword(){
                         Register
                     </h1>
                     <div class="inputPosition">
-                            <input type="email" placeholder="Email" class="inputEmail">
-                            <input :type="visible" placeholder="Create Password" class="inputPassword">
-                            <input :type="visible" placeholder="Confirm Password" class="inputPassword">
+                            <input v-model="name" type="text" placeholder="Name" class="inputEmail">
+                            <input v-model="email" type="email" placeholder="Email" class="inputEmail">
+                            <input  :type="visible" placeholder="Create Password" class="inputPassword">
+                            <input v-model="password" :type="visible" placeholder="Confirm Password" class="inputPassword">
                         <img @click="seePassword" :src="eye" class="eyes">
                     </div>
                     <div class="buttonPosition">
