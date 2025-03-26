@@ -2,6 +2,10 @@
 import NavHeader from '@/components/NavHeader.vue';
 import { ref } from 'vue';
 import { register } from '@/services/http';
+import { useAuthStore } from '@/stores/auth.js'
+import router from '@/router';
+
+const authUser = useAuthStore() 
 
 const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
@@ -23,8 +27,6 @@ function seePassword(){
 
 }
 
-
-
 async function submit() {
     const result = await register(
         {
@@ -33,6 +35,15 @@ async function submit() {
         name: name.value
         }
     )
+
+    if (result.status >= 200 && result.status < 300 || result.status == undefined){
+        alert('Deu boa')
+        authUser.saveUser(result.data)
+        router.push('/')
+    }
+    else{
+        console.log('Login deu ruim')
+    }
 }
 
 </script>
@@ -47,18 +58,20 @@ async function submit() {
                     <h1 class="registerCardTitle">
                         Register
                     </h1>
-                    <div class="inputPosition">
-                            <input v-model="name" type="text" placeholder="Name" class="inputEmail">
-                            <input v-model="email" type="email" placeholder="Email" class="inputEmail">
-                            <input  :type="visible" placeholder="Create Password" class="inputPassword">
-                            <input v-model="password" :type="visible" placeholder="Confirm Password" class="inputPassword">
-                        <img @click="seePassword" :src="eye" class="eyes">
-                    </div>
-                    <div class="buttonPosition">
-                        <button class="registerButton" type="submit">
-                            REGISTER
-                        </button>
-                    </div>
+                    <form @submit.prevent="submit">
+                        <div class="inputPosition">
+                                <input required v-model="name" type="text" placeholder="Name" class="inputEmail">
+                                <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
+                                <input required :type="visible" placeholder="Create Password" class="inputPassword">
+                                <input required v-model="password" :type="visible" placeholder="Confirm Password" class="inputPassword">
+                            <img @click="seePassword" :src="eye" class="eyes">
+                        </div>
+                        <div class="buttonPosition">
+                            <button class="registerButton" type="submit">
+                                REGISTER
+                            </button>
+                        </div>
+                    </form>
                     <div class="createAccount">
                         <p>
                             Already have an account?

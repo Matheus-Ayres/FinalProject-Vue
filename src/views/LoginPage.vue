@@ -5,33 +5,31 @@ import { useAuthStore } from '@/stores/auth.js'
 import { login } from '@/services/http.js'
 import router from '@/router';
 
-
-
 const authUser = useAuthStore() 
-
 const email = ref('')
 const password = ref('')
-
+const invalidLogin = ref(false)
 
 async function submit() {
-    const result = await login( 
-        {
-            email: email.value,
-            password: password.value    
-        }
-    )
-    console.log(result)
+    try{
+        const result = await login( 
+            {
+                email: email.value,
+                password: password.value    
+            }
+        )
 
-    if (result.status >= 200 && result.status < 300){
-        alert('Deu boa')
-        authUser.saveUser(result.data)
-        router.push('/')
-    }
-    else{
-        console.log('Login deu ruim')
+            if (result.status == 200){
+                alert('Deu boa')
+                authUser.saveUser(result.data)
+                router.push('/')
+            }
+            
+    }catch{
+        alert('Login deu ruim')
+        invalidLogin.value = true
     }
 }
-
 const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
 const closeEye = ref("/src/assets/icons/closeEye.png")
@@ -66,9 +64,12 @@ function seePassword(){
                     </h1>
                 <form @submit.prevent="submit">
                     <div class="inputPosition">
-                            <input v-model="email" type="email" placeholder="Email" class="inputEmail">
-                            <input v-model="password" :type="visible" placeholder="Password" class="inputPassword">
+                            <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
+                            <input required v-model="password" :type="visible" placeholder="Password" class="inputPassword">
                         <img @click="seePassword" :src="eye" class="eyes">
+                    </div>
+                    <div v-if="invalidLogin" class>
+                        Invalid email or password
                     </div>
                     <div class="buttonPosition">
                         <button class="loginButton" type="submit">
