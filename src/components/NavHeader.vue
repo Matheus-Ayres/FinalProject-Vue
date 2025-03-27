@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth.js'
 
 const authUser = useAuthStore()
 
-
+console.log(authUser.user)
 </script>
 
 <template>

@@ -9,6 +9,10 @@ const authUser = useAuthStore()
 const email = ref('')
 const password = ref('')
 const invalidLogin = ref(false)
+const eye = ref("/src/assets/icons/eye.png")
+const openEye = ref("/src/assets/icons/eye.png")
+const closeEye = ref("/src/assets/icons/closeEye.png")
+const visible = ref ("password")
 
 async function submit() {
     try{
@@ -25,17 +29,17 @@ async function submit() {
                 router.push('/')
             }
             
-    }catch{
-        alert('Login deu ruim')
+    }catch(error){
         invalidLogin.value = true
+        console.log(authUser.token)
     }
 }
-const eye = ref("/src/assets/icons/eye.png")
-const openEye = ref("/src/assets/icons/eye.png")
-const closeEye = ref("/src/assets/icons/closeEye.png")
 
-const visible = ref ("password")
+console.log(useAuthStore)
 
+function resetInvalid(){
+    invalidLogin.value = false
+}
 
 function seePassword(){
     if(eye.value == openEye.value){
@@ -47,7 +51,6 @@ function seePassword(){
     }
 
 }
-
 
 </script>
 
@@ -64,12 +67,12 @@ function seePassword(){
                     </h1>
                 <form @submit.prevent="submit">
                     <div class="inputPosition">
-                            <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
-                            <input required v-model="password" :type="visible" placeholder="Password" class="inputPassword">
+                            <input @click="resetInvalid" required v-model="email" type="email" placeholder="Email" class="inputEmail">
+                            <input  @click="resetInvalid" required v-model="password" :type="visible" placeholder="Password" class="inputPassword">
                         <img @click="seePassword" :src="eye" class="eyes">
                     </div>
-                    <div v-if="invalidLogin" class>
-                        Invalid email or password
+                    <div v-if="invalidLogin" class="invalidLogin">
+                        Invalid email or password!
                     </div>
                     <div class="buttonPosition">
                         <button class="loginButton" type="submit">
@@ -246,5 +249,21 @@ transform: scale(1.05);
 
 .register:visited{
     color: white;
+}
+
+.invalidLogin{
+    color: red;
+    font-family: "roboto", "openSans";
+    text-align: center;
+    font-size: 1.2rem;
+    animation: treme 0.1s;
+}
+
+@keyframes treme {
+  0% {margin-left: 0;}
+  25% {margin-left: 5px;}
+  50% {margin-left: 0;}
+  75% {margin-left: -5px;}
+  100% {margin-left: 0;}
 }
 </style>

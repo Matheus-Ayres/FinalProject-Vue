@@ -11,9 +11,13 @@ const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
 const closeEye = ref("/src/assets/icons/closeEye.png")
 const visible = ref ("password")
-const email = ref('')
-const password = ref('')
 const name = ref('')
+const email = ref('')
+const createpassword = ref('')
+const confirmpassword = ref('')
+const equalPassword = ref(false)
+const password = ref('')
+
 
 
 function seePassword(){
@@ -28,22 +32,34 @@ function seePassword(){
 }
 
 async function submit() {
-    const result = await register(
-        {
-        email: email.value,
-        password: password.value,
-        name: name.value
+    try{
+        if(createpassword.value != confirmpassword.value){
+            equalPassword.value = true
         }
-    )
-
-    if (result.status >= 200 && result.status < 300 || result.status == undefined){
-        alert('Deu boa')
-        authUser.saveUser(result.data)
-        router.push('/')
-    }
-    else{
+        else{
+            console.log('oi')
+            const result = await register(
+                {
+                email: email.value,
+                password: password.value,
+                name: name.value
+                }
+            )
+            if(result.status == 201){
+                alert('Deu boa')
+                authUser.saveUser(result.data)
+                password.value = confirmpassword.value
+                router.push('/')
+            }   
+        }
+    }catch(error){
         console.log('Login deu ruim')
+        console.log(error)
     }
+}
+
+function resetInvalid(){
+   equalPassword.value = false
 }
 
 </script>
@@ -62,9 +78,12 @@ async function submit() {
                         <div class="inputPosition">
                                 <input required v-model="name" type="text" placeholder="Name" class="inputEmail">
                                 <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
-                                <input required :type="visible" placeholder="Create Password" class="inputPassword">
-                                <input required v-model="password" :type="visible" placeholder="Confirm Password" class="inputPassword">
+                                <input required @click="resetInvalid" v-model="createpassword" :type="visible" placeholder="Create Password" class="inputPassword">
+                                <input required @click="resetInvalid" v-model="confirmpassword" :type="visible" placeholder="Confirm Password" class="inputPassword">
                             <img @click="seePassword" :src="eye" class="eyes">
+                        </div>
+                        <div v-if="equalPassword" class="ivalidPasswords">
+                            Password must be equal!
                         </div>
                         <div class="buttonPosition">
                             <button class="registerButton" type="submit">
@@ -241,5 +260,21 @@ transform: scale(1.05);
 
 .register:visited{
     color: white;
+}
+
+.ivalidPasswords{
+    color: red;
+    font-family: "roboto", "openSans";
+    text-align: center;
+    font-size: 1.2rem;
+    animation: treme 0.1s;
+}
+
+@keyframes treme {
+  0% {margin-left: 0;}
+  25% {margin-left: 5px;}
+  50% {margin-left: 0;}
+  75% {margin-left: -5px;}
+  100% {margin-left: 0;}
 }
 </style>

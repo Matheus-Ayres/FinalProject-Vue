@@ -6,7 +6,7 @@ const API = axios.create({
     baseURL: 'http://34.138.111.33:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQzMDIzOTMxfQ.hY52RQ2AdBDtifMOpdUCYpUe0BH3M3NjYX1gH08sxn8'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQzMTIyMjA5fQ.xRBXTe5z5olezy1j_YJCF0CT8VY1BIeoye4Uy04LnUs'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -14,7 +14,6 @@ export async function login(payload){
 }
 
 export async function register(payload) {
-    try{
         const response = await API.post('register', payload, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,8 +21,5 @@ export async function register(payload) {
                 'Content-Type': 'application/json'
             },
         }) 
-        return response.data
-    }catch(error){
-        console.log(error.response.data)
-    }
+    return response
 }
