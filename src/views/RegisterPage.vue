@@ -37,23 +37,23 @@ async function submit() {
             equalPassword.value = true
         }
         else{
-            console.log('oi')
-            const result = await register(
-                {
-                email: email.value,
-                password: password.value,
-                name: name.value
-                }
-            )
-            if(result.status == 201){
-                alert('Deu boa')
-                authUser.saveUser(result.data)
                 password.value = confirmpassword.value
-                router.push('/')
-            }   
+                const result = await register(
+                    {
+                    email: email.value,
+                    password: password.value,
+                    name: name.value
+                    }
+                )
+                if(result.status == 201){
+                    alert('Deu boa')
+                    authUser.saveUser(result.data)
+                    router.push('/')
+                }   
+                
         }
     }catch(error){
-        console.log('Login deu ruim')
+        console.log('register deu ruim')
         console.log(error)
     }
 }
@@ -76,7 +76,7 @@ function resetInvalid(){
                     </h1>
                     <form @submit.prevent="submit">
                         <div class="inputPosition">
-                                <input required v-model="name" type="text" placeholder="Name" class="inputEmail">
+                                <input required v-model="name" type="text" placeholder="UserName" class="inputEmail">
                                 <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
                                 <input required @click="resetInvalid" v-model="createpassword" :type="visible" placeholder="Create Password" class="inputPassword">
                                 <input required @click="resetInvalid" v-model="confirmpassword" :type="visible" placeholder="Confirm Password" class="inputPassword">

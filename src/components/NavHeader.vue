@@ -1,9 +1,9 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
+import NavItems from './NavItems.vue';
 
 const authUser = useAuthStore()
 
-console.log(authUser.user)
 </script>
 
 <template>
@@ -12,11 +12,7 @@ console.log(authUser.user)
             <p class="techplace">
                 TECHPLACE
             </p>
-            <RouterLink to="/" class="navPagesTitles">
-                <p>
-                    Catalog
-                </p>       
-            </RouterLink>
+            <NavItems/>
         </div>
         <diV v-if="!authUser.isAuthenticated" class="loginPosition" >
             <RouterLink to="/Login" class="loginStyle">
@@ -32,9 +28,9 @@ console.log(authUser.user)
         </diV>
         
         <div v-else class="loginPosition">
-            <RouterLink @click="authUser.logout()" class="registerStyle" to="Login">
+            <RouterLink class="registerStyle" to="/Profile">
                 <p>
-                    Logout
+                    Profile
                 </p>    
             </RouterLink>
         </div>
@@ -57,12 +53,7 @@ margin-right: 80px;
     
 }
 
-.navPagesTitles{
-    color: white;
-    font-family: "openSans";
-    font-size: 1.2rem;
-    text-decoration: none;
-}
+
 
 .header{
     display: flex;
@@ -71,6 +62,8 @@ margin-right: 80px;
     background-color: var(--purpleDark);
     max-height: 10vh;
     margin: 20px 60px;
+    position: relative;
+    z-index: 1;
 }
 
 .loginPosition{
@@ -85,7 +78,7 @@ margin-right: 80px;
     color: white;
     font-family: "openSans";
     text-decoration: none;
-    transition: 0.5s;
+    transition: 0.4s;
 }
 
 .loginStyle:visited {
