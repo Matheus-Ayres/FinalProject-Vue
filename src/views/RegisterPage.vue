@@ -48,7 +48,7 @@ async function submit() {
                 if(result.status == 201){
                     alert('Deu boa')
                     authUser.saveUser(result.data)
-                    router.push('/')
+                    router.push('/NFTsPage')
                 }   
                 
         }
@@ -77,7 +77,7 @@ function resetInvalid(){
                     <form @submit.prevent="submit">
                         <div class="inputPosition">
                                 <input required v-model="name" type="text" placeholder="UserName" class="inputEmail">
-                                <input required v-model="email" type="email" placeholder="Email" class="inputEmail">
+                                <input required v-model="email" type="email" placeholder="Email@example.com" class="inputEmail">
                                 <input required @click="resetInvalid" v-model="createpassword" :type="visible" placeholder="Create Password" class="inputPassword">
                                 <input required @click="resetInvalid" v-model="confirmpassword" :type="visible" placeholder="Confirm Password" class="inputPassword">
                             <img @click="seePassword" :src="eye" class="eyes">

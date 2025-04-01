@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/stores/auth.js'
 import NavItems from './NavItems.vue';
 
-const authUser = useAuthStore()
+const user = useAuthStore()
 
 </script>
 
@@ -14,7 +14,7 @@ const authUser = useAuthStore()
             </p>
             <NavItems/>
         </div>
-        <diV v-if="!authUser.isAuthenticated" class="loginPosition" >
+        <diV v-if="!user.isAuthenticated" class="loginPosition" >
             <RouterLink to="/Login" class="loginStyle">
                 <p>
                     LOGIN
@@ -26,6 +26,19 @@ const authUser = useAuthStore()
                 </p>
             </RouterLink>
         </diV>
+
+        <div v-else-if="user.isAuthenticated && user.user.role == 'ADMIN'" class="loginPosition">
+            <RouterLink class="registerStyle" to="/RegisterModerator">
+                <p>
+                    Register Moderator
+                </p>    
+            </RouterLink>
+            <RouterLink class="registerStyle" to="/Profile">
+                <p>
+                    Profile
+                </p>    
+            </RouterLink>
+        </div>
         
         <div v-else class="loginPosition">
             <RouterLink class="registerStyle" to="/Profile">

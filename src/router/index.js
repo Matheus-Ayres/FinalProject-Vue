@@ -7,6 +7,7 @@ import HqsPage from '@/views/HqsPage.vue'
 import GameAssetsPage from '@/views/GameAssetsPage.vue'
 import TCGCardsPage from '@/views/TCGCardsPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
+import RegisterModerator from '@/views/RegisterModerator.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/TCGCardsPage',
       name: 'TCGCardsPage',
       component: TCGCardsPage
+    },
+    {
+      path: '/RegisterModerator',
+      name: 'RegisterModerator',
+      component: RegisterModerator
     },
   ],
 })

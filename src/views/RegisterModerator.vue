@@ -1,45 +1,24 @@
 <script setup>
 import NavHeader from '@/components/NavHeader.vue';
 import { ref } from 'vue';
+import { registerModerator } from '@/services/http';
 import { useAuthStore } from '@/stores/auth.js'
-import { login } from '@/services/http.js'
 import router from '@/router';
 
 const authUser = useAuthStore() 
-const email = ref('')
-const password = ref('')
-const invalidLogin = ref(false)
+
 const eye = ref("/src/assets/icons/eye.png")
 const openEye = ref("/src/assets/icons/eye.png")
 const closeEye = ref("/src/assets/icons/closeEye.png")
 const visible = ref ("password")
+const name = ref('')
+const email = ref('')
+const createpassword = ref('')
+const confirmpassword = ref('')
+const equalPassword = ref(false)
+const password = ref('')
 
-async function submit() {
-    try{
-        const result = await login( 
-            {
-                email: email.value,
-                password: password.value    
-            }
-        )
 
-            if (result.status == 200){
-                alert('Deu boa')
-                authUser.saveUser(result.data)
-                router.push('/NFTsPage')
-            }
-            
-    }catch(error){
-        invalidLogin.value = true
-        console.log(authUser.token)
-    }
-}
-
-console.log(useAuthStore)
-
-function resetInvalid(){
-    invalidLogin.value = false
-}
 
 function seePassword(){
     if(eye.value == openEye.value){
@@ -52,6 +31,37 @@ function seePassword(){
 
 }
 
+async function submit() {
+    try{
+        if(createpassword.value != confirmpassword.value){
+            equalPassword.value = true
+        }
+        else{
+                password.value = confirmpassword.value
+                const result = await registerModerator(
+                    {
+                    email: email.value,
+                    password: password.value,
+                    name: name.value,
+                    role: "MODERATOR"
+                    }
+                )
+                if(result.status == 201){
+                    alert('Deu boa')
+                    router.push('/NFTsPage')
+                }   
+                
+        }
+    }catch(error){
+        console.log('register deu ruim')
+        console.log(error)
+    }
+}
+
+function resetInvalid(){
+   equalPassword.value = false
+}
+
 </script>
 
 <template>
@@ -59,37 +69,28 @@ function seePassword(){
 <div class="body">
         <main>
             <div class="pg">
-                <img src="/src/assets/login.svg" class="loginIMG">
-                <div class="loginCard">  
-                
-                    <h1 class="loginCardTitle">
-                        Login
+                <img src="/src/assets/registerModerator.svg" class="registerIMG">
+                <div class="registerCard">
+                    <h1 class="registerCardTitle">
+                        Register new moderator
                     </h1>
-                <form @submit.prevent="submit">
-                    <div class="inputPosition">
-                            <input @click="resetInvalid" required v-model="email" type="email" placeholder="Email" class="inputEmail">
-                            <input  @click="resetInvalid" required v-model="password" :type="visible" placeholder="Password" class="inputPassword">
-                        <img @click="seePassword" :src="eye" class="eyes">
-                    </div>
-                    <div v-if="invalidLogin" class="invalidLogin">
-                        Invalid email or password!
-                    </div>
-                    <div class="buttonPosition">
-                        <button class="loginButton" type="submit">
-                            LOGIN
-                        </button>
-                    </div>
-                </form>
-                    <div class="createAccount">
-                        <p>
-                            Don't have an account?
-                        </p>
-                        <RouterLink to="Register">
-                            <span class="register">
+                    <form @submit.prevent="submit">
+                        <div class="inputPosition">
+                                <input required v-model="name" type="text" placeholder="UserName" class="inputEmail">
+                                <input required v-model="email" type="email" placeholder="Email@example.com" class="inputEmail">
+                                <input required @click="resetInvalid" v-model="createpassword" :type="visible" placeholder="Create Password" class="inputPassword">
+                                <input required @click="resetInvalid" v-model="confirmpassword" :type="visible" placeholder="Confirm Password" class="inputPassword">
+                            <img @click="seePassword" :src="eye" class="eyes">
+                        </div>
+                        <div v-if="equalPassword" class="ivalidPasswords">
+                            Password must be equal!
+                        </div>
+                        <div class="buttonPosition">
+                            <button class="registerButton" type="submit">
                                 REGISTER
-                            </span>
-                        </RouterLink>
-                    </div>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
@@ -153,7 +154,7 @@ color: rgba(255, 255, 255, 0.329);
 font-family: "roboto";
 }
 
-.loginIMG{
+.registerIMG{
 max-width: 50vw;
 opacity: 1;
 animation-name: fadeIn;
@@ -179,14 +180,14 @@ grid-template-columns: repeat(2, 1fr);
 gap: 50px;
 }
 
-.loginCardTitle{
+.registerCardTitle{
 color: white;
 font-family: "Roboto";
 margin-top: 100px;
-font-size: 3rem;
+font-size: 2rem;
 }
 
-.loginCard{
+.registerCard{
 margin: 5% 10%;
 background-color: #ffffff07;
 padding: 10px 40px 50px 40px;
@@ -217,7 +218,7 @@ text-align: center;
 margin-top: 30px;
 }
 
-.loginButton{
+.registerButton{
 font-family: "Roboto";
 font-weight: bold;
 color: white;
@@ -230,7 +231,7 @@ cursor: pointer;
 transition: 0.2s ease-in-out;
 }
 
-.loginButton:hover{
+.registerButton:hover{
 border: white 1px solid;
 transform: scale(1.05);
 }
@@ -251,7 +252,7 @@ transform: scale(1.05);
     color: white;
 }
 
-.invalidLogin{
+.ivalidPasswords{
     color: red;
     font-family: "roboto", "openSans";
     text-align: center;
