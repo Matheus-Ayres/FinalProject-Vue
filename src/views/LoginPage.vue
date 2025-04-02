@@ -26,7 +26,7 @@ async function submit() {
             if (result.status == 200){
                 alert('Deu boa')
                 authUser.saveUser(result.data)
-                router.push('/NFTsPage')
+                router.push('/')
             }
             
     }catch(error){

@@ -48,7 +48,7 @@ async function submit() {
                 if(result.status == 201){
                     alert('Deu boa')
                     authUser.saveUser(result.data)
-                    router.push('/NFTsPage')
+                    router.push('/')
                 }   
                 
         }
@@ -59,7 +59,7 @@ async function submit() {
 }
 
 function resetInvalid(){
-   equalPassword.value = false
+    equalPassword.value = false
 }
 
 </script>

@@ -48,7 +48,7 @@ async function submit() {
                 )
                 if(result.status == 201){
                     alert('Deu boa')
-                    router.push('/NFTsPage')
+                    router.push('/')
                 }   
                 
         }

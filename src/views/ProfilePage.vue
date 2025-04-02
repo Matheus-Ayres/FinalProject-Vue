@@ -36,18 +36,18 @@ function changePFP(){
         <div class="userInfos">
             <div>
                 <div class="Image" @click="changePFP">
-                    <div v-if="!editPfpForm"> 
+                    <div> 
                         <img class="profileImage" :src="userPFP"/>
                         <div class="overlay"></div>
                     </div>
-                    <EditPFP v-else/>
                 </div>
                 <p @click="logout" class="logout">Logout</p>
             </div>
             <div class="userDesc">
                 <div v-if="user.user.role == 'ADMIN' || user.user.role == 'MODERATOR'" class="userNameArea">
-                    <p class="usernameStyle">{{ user.user.name }}</p>
-                    <img src="/src/assets/icons/verify.png" class="verify">
+                        <p class="usernameStyle">{{ user.user.name }}</p>
+                        <img src="/src/assets/icons/verify.png" class="verify">
+                        <p>{{ user.user.role }}</p>  
                 </div>
 
                 <div v-else class="userNameArea">
@@ -72,6 +72,11 @@ function changePFP(){
 </template>
 
 <style scoped>
+.ordenar{
+    display: flex;
+    flex-direction: column;
+}
+
 .edit{
     width: 40px;
 }
