@@ -1,4 +1,5 @@
 <script setup>
+import Categories from '@/components/CategoriesComponents/Categories.vue';
 import NavHeader from '@/components/NavHeader.vue';
 
 
@@ -6,6 +7,7 @@ import NavHeader from '@/components/NavHeader.vue';
 
 <template>
     <NavHeader/>
+    <Categories/>
 </template>
 
 <style scoped>

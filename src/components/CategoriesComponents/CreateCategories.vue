@@ -13,8 +13,9 @@ async function newCategorie(){
         )
 
         if(result.status == 201){
-            alert("Successful")
             categorieName.value = '';
+            window.location.reload();
+
         }else{
             alert("ERROR")
             categorieName.value = '';
@@ -31,9 +32,11 @@ async function newCategorie(){
     <main>
     <form @submit.prevent="newCategorie">
         <div class="newCategorie">
-            <label>Register a new categorie:</label>
-            <input required type="text" v-model="categorieName">
-            <button type="submit">+</button>
+            <label>Create a new category:</label>
+            <div>
+                <input required type="text" v-model="categorieName">
+                <button type="submit">+</button>
+            </div>
         </div>
     </form>
     </main>

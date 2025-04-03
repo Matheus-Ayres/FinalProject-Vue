@@ -1,6 +1,6 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
-import NavItems from './CategoriesComponent.vue';
+
 
 const user = useAuthStore()
 
