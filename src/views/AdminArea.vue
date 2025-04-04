@@ -1,7 +1,6 @@
 <script setup>
 import Categories from '@/components/CategoriesComponents/Categories.vue';
 import CreateCategorie from '@/components/CategoriesComponents/CreateCategories.vue';
-import EditCategory from '@/components/CategoriesComponents/EditCategory.vue';
 import NavHeader from '@/components/NavHeader.vue';
 
 
@@ -11,11 +10,10 @@ import NavHeader from '@/components/NavHeader.vue';
     <NavHeader/>
     <main>
         <div class="topArea"> 
-            <CreateCategorie/>
-            <EditCategory/>
+            <CreateCategorie/> 
         </div>
         <div class="catPosition">
-            <Categories />
+            <Categories/>
         </div>
     </main>
 </template>

@@ -7,7 +7,6 @@ import NavHeader from '@/components/NavHeader.vue';
 
 <template>
     <NavHeader/>
-    <Categories/>
 </template>
 
 <style scoped>

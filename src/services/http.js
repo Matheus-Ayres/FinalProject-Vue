@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQzNzM5NjY1fQ.ykLYNiWsc7NfRqQElZPxJPuwMu7PeK_beVhR55QcH1w'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQzODI0OTQyfQ.1TL7By4gcBiDrRbA8eylJKU3b_Nj6PL8rVQ5EzyuGSM'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -66,8 +66,8 @@ export async function deleteCategorie(idCat) {
 return response.data
 }
 
-export async function updateCategorie(idCat) {
-    const response = await API.put(`categories/${idCat}`, {
+export async function updateCategories(idCat, payload) {
+    const response = await API.put(`categories/${idCat}`,payload, {
         headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',

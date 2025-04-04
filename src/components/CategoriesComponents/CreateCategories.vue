@@ -35,8 +35,9 @@ async function newCategorie(){
             <label>Create a new category:</label>
             <div>
                 <input required type="text" v-model="categorieName">
-                <button type="submit">+</button>
+                
             </div>
+            <button type="submit">+</button>
         </div>
     </form>
     </main>
