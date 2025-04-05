@@ -138,7 +138,7 @@ transition: 0.3s ease-out;
 .inputPassword{
 background-color: #ffffff00;
 color: white;
-font-family: "roboto";
+font-family: "roboto", "openSans";
 width: 90%;
 padding: 10px 0 10px 10px;
 border: white solid 2px;
@@ -150,7 +150,7 @@ transition: 0.3s ease-out;
 
 .inputs::placeholder{
 color: rgba(255, 255, 255, 0.329);
-font-family: "roboto";
+font-family: "roboto", "openSans";
 }
 
 .loginIMG{
@@ -181,7 +181,7 @@ gap: 50px;
 
 .loginCardTitle{
 color: white;
-font-family: "Roboto";
+font-family: "Roboto", "openSans";
 margin-top: 100px;
 font-size: 3rem;
 }
@@ -218,7 +218,7 @@ margin-top: 30px;
 }
 
 .loginButton{
-font-family: "Roboto";
+font-family: "Roboto", "openSans";
 font-weight: bold;
 color: white;
 padding: 10px 150px;
@@ -238,7 +238,7 @@ transform: scale(1.05);
 .createAccount{
     text-align: center;
     margin-top: 25px;
-    font-family: "roboto";
+    font-family: "roboto", "openSans";
     color: white;
 }
 

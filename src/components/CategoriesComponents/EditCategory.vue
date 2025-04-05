@@ -1,16 +1,17 @@
 <script setup>
 import { ref } from 'vue';
-import { updateCategories } from '../../services/http';
+import { deleteCategorie, updateCategories } from '../../services/http';
 
 const props = defineProps({
     catId: Number,
     currentName: String
 })
 
-const emit = defineEmits(['hide'])
 
 const newName = ref(props.currentName)
 const editField = ref(false)
+const deleteVisible = ref(false)
+
 
 
 function openEditField(){
@@ -21,13 +22,11 @@ function openEditField(){
     }
 }
 
-function hideDeleteEvent(){
-    emit('hide')
-}
+
 
 function buttonClick(){
     openEditField()
-    hideDeleteEvent()
+    hideDelete()
 }
 
 async function updateCategorie(){
@@ -41,6 +40,26 @@ async function updateCategorie(){
     }
 }
 
+async function deleteCat() {
+    try{
+        await deleteCategorie(props.catId)
+    }
+    catch(error){
+        console.log(error)
+    }
+    
+}
+
+function hideDelete(){
+    if(deleteVisible.value == false){
+        deleteVisible.value = true
+    }else{
+        deleteVisible.value = false
+    }
+}
+
+
+
 </script>
 
 <template>
@@ -49,6 +68,8 @@ async function updateCategorie(){
         <input type="text" v-model="newName">
         <button type="submit" class="confirm">Confirm</button> 
     </form>
+
+    <button v-if="!deleteVisible" @click="deleteCat" class="delete">DELETE</button>
 </template>
 
 <style scoped>
@@ -101,5 +122,22 @@ form{
     align-items: center;
     gap: 5px;
     transition: 0.2s;
+}
+
+.delete{
+    padding: 5px 50px;
+    border: var(--lightBlue) 1px solid;
+    background: none;
+    color: var(--lightBlue);
+    font-weight: bold;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+.delete:hover{
+    color: var(--textSec);
+    border: red 1px solid;
+    background-color: red;
+    cursor: pointer;
 }
 </style>

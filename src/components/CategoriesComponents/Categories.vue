@@ -1,35 +1,17 @@
 <script setup>
-import { deleteCategorie, getCategories } from '@/services/http';
+import {  getCategories } from '@/services/http';
 import { onMounted, ref } from 'vue';
-import { updateCategories } from '../../services/http';
+
 import EditCategory from './EditCategory.vue';
 
 const categories = ref({})
-const editField = ref(false)
-const deleteVisible = ref(false)
+
 
 async function myCategories(){
     const result = await getCategories();
     categories.value = result
     console.log(categories.value)
-}
-
-async function deleteCat(idCat) {
-    try{
-        await deleteCategorie(idCat)
-    }
-    catch(error){
-        console.log(error)
-    }
-    categories.value = categories.value.filter(cat => cat.id !== idCat);
-}
-
-function hideDelete(){
-    if(deleteVisible.value == false){
-        deleteVisible.value = true
-    }else{
-        deleteVisible.value = false
-    }
+    categories.value = categories.value.filter(cat => cat.id !== props.catId);
 }
 
 onMounted(() => {
@@ -46,8 +28,7 @@ onMounted(() => {
                         
                         {{ cat.name }}
                     </p>
-                    <EditCategory @hide="hideDelete" :catId="cat.id"/>
-                    <button v-if="!deleteVisible" @click="deleteCat(cat.id)" class="delete">DELETE</button>
+                    <EditCategory :catId="cat.id"/>       
             </div>
         </div>
     </div>
@@ -66,22 +47,7 @@ p{
     gap: 30px;
 }
 
-.delete{
-    padding: 5px 50px;
-    border: var(--lightBlue) 1px solid;
-    background: none;
-    color: var(--lightBlue);
-    font-weight: bold;
-    border-radius: 20px;
-    transition: 0.2s;
-}
 
-.delete:hover{
-    color: var(--textSec);
-    border: red 1px solid;
-    background-color: red;
-    cursor: pointer;
-}
 
 .catText{
     color: var(--textSec);
