@@ -38,6 +38,7 @@ async function updateCategorie(){
     catch(error){
         console.log(error)
     }
+    window.location.reload();
 }
 
 async function deleteCat() {
@@ -47,7 +48,7 @@ async function deleteCat() {
     catch(error){
         console.log(error)
     }
-    
+    window.location.reload();
 }
 
 function hideDelete(){

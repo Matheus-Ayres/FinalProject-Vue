@@ -1,6 +1,6 @@
 <script setup>
-import Categories from '@/components/CategoriesComponents/Categories.vue';
-import CreateCategorie from '@/components/CategoriesComponents/CreateCategories.vue';
+import Categories from '../components/CategoriesComponents/CategoriesCardsAdmin.vue';
+import CreateCategorie from '../components/CategoriesComponents/CreateCategories.vue';
 import NavHeader from '@/components/NavHeader.vue';
 
 

@@ -1,5 +1,6 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
+import { RouterLink } from 'vue-router';
 
 
 const user = useAuthStore()
@@ -9,9 +10,9 @@ const user = useAuthStore()
 <template>
     <nav class="header">
         <div class="pages">
-            <p class="techplace">
+            <RouterLink to="/" class="techplace">
                 TECHPLACE
-            </p>
+            </RouterLink>
         </div>
         <diV v-if="!user.isAuthenticated" class="loginPosition" >
             <RouterLink to="/Login" class="loginStyle">
@@ -44,6 +45,19 @@ const user = useAuthStore()
             </RouterLink>
         </div>
         
+        <div v-else-if="user.isAuthenticated && user.user.role == 'MODERATOR'" class="loginPosition">
+            <RouterLink class="registerStyle" to="/ModeratorArea">
+                <p>
+                    Moderator Area
+                </p>    
+            </RouterLink>
+            <RouterLink class="registerStyle" to="/Profile">
+                <p>
+                    Profile
+                </p>    
+            </RouterLink>
+        </div>
+
         <div v-else class="loginPosition">
             <RouterLink class="registerStyle" to="/Profile">
                 <p>
@@ -60,7 +74,7 @@ const user = useAuthStore()
 color: white;
 font-family: titles;
 font-size: 2rem;
-
+text-decoration: none;
 margin-right: 80px;
 }
 

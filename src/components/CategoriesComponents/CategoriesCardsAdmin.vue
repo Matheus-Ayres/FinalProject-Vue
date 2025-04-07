@@ -11,7 +11,7 @@ async function myCategories(){
     const result = await getCategories();
     categories.value = result
     console.log(categories.value)
-    categories.value = categories.value.filter(cat => cat.id !== props.catId);
+
 }
 
 onMounted(() => {
@@ -25,7 +25,6 @@ onMounted(() => {
         
             <div class="catsField"> 
                     <p class="catText">
-                        
                         {{ cat.name }}
                     </p>
                     <EditCategory :catId="cat.id"/>       

@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQzOTMwNjUwfQ.RJlp7tDJUrh_AVa88Z2R53X1pupG2JZxTAzb12hEuDs'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0MDg1MjI5fQ.Pt-zjZ7ZqZdAKTAtW-F2yVGW-w21sza7DXQfbYrEpXY'
 
 export async function login(payload){
         const response = await API.post('login', payload)

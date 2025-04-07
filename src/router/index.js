@@ -5,6 +5,7 @@ import RegisterPage from '@/views/RegisterPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
 import RegisterModerator from '@/views/RegisterModerator.vue'
 import AdminArea from '@/views/AdminArea.vue'
+import ModeratorArea from '../views/ModeratorArea.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/AdminArea',
       name: 'AdminArea',
       component: AdminArea
+    },
+    {
+      path: '/ModeratorArea',
+      name: 'ModeratorArea',
+      component: ModeratorArea
     }
   ],
 })
