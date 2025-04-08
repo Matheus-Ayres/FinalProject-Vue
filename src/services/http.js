@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0MDg1MjI5fQ.Pt-zjZ7ZqZdAKTAtW-F2yVGW-w21sza7DXQfbYrEpXY'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0MTgzNTQ2fQ.gv15m8Zb-ve7PDUk3eT4hdTwqdvgCVCn9fdCBAqs4gE'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -75,4 +75,15 @@ export async function updateCategories(idCat, payload) {
         },
     }) 
 return response.data
+}
+
+export async function createProducts(payload) {
+    const response = await API.post('products/', payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'multipart/form-data',
+            'Content-Type': 'multipart/form-data'
+        },
+    }) 
+return response
 }

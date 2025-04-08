@@ -8,13 +8,13 @@ import NewProduct from '../components/ProductsComponents/NewProduct.vue';
 
 <template>
     <NavHeader/>
-    <NewProduct/>
+    <NewProduct />
     <div class="categoriesPosition">
         <h1>
             Category 
         </h1>
         <div>
-            <Categories/>
+            <Categories />
         </div>
     </div>
 </template>
