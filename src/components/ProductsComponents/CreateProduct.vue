@@ -28,7 +28,8 @@ async function createProduct() {
             name: name.value,
             category_id: categoryChoosed.value,
             price: price.value,
-            stock: stock.value
+            stock: stock.value,
+            description: description.value
         })
         
         if(result.status == 201){
@@ -42,9 +43,6 @@ async function createProduct() {
 
     
 }
-
-
-
 
 onMounted(() => {
     myCategories()

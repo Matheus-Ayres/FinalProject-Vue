@@ -1,14 +1,20 @@
 <script setup>
 import {  getCategories } from '@/services/http';
 import { onMounted, ref } from 'vue';
+import ProductCards from '../ProductsComponents/ProductCards.vue';
 
 const categories = ref({})
+const idCat = ref(null)
 
 
 async function myCategories(){
-    const result = await getCategories();
-    categories.value = result
-    console.log(categories.value)
+    try{
+        const result = await getCategories();
+        categories.value = result
+        console.log(categories.value)
+    }catch(error){
+        console.log(error)
+    }
 }
 
 onMounted(() => {
@@ -23,19 +29,23 @@ onMounted(() => {
         </div>
         <div  v-for="cat in categories" :key="cat.id">
             <div> 
-                    <p class="categoryName">
+                    <button class="categoryName" @click="idCat = cat.id" >
                         {{ cat.name }}
-                    </p>
-            </div>
+                    </button>
+            </div> 
         </div>
+        <ProductCards v-if="idCat != null" :key="idCat" :catId="idCat" /> 
     </div>
 </template>
 
 <style scoped>
-    p{
+    button{
         color: var(--textSec);
         font-family: "openSans";
         font-size: 1.2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 
     .allCat{
