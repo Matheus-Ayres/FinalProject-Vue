@@ -4,11 +4,12 @@ import { createProducts, getCategories } from '../../services/http';
 
 const emit = defineEmits(['close'])
 const categories = ref({})
-const categoryChoosed = ref({})
+const categoryChoosed = ref(null)
 const name = ref('')
 const price = ref()
 const stock = ref()
 const description = ref('')
+const productImage = ref('')
 
 console.log(categoryChoosed)
 
@@ -22,26 +23,39 @@ async function myCategories(){
     console.log(categories.value)
 }
 
+function handleImage(event) {
+    const file = event.target.files[0]
+    productImage.value = file
+}
+
+
 async function createProduct() {
+    
     try{
-        const result = await createProducts({
-            name: name.value,
-            category_id: categoryChoosed.value,
-            price: price.value,
-            stock: stock.value,
-            description: description.value
-        })
-        
-        if(result.status == 201){
-            alert('Deu boa')
+        const formData = new FormData();
+            formData.append("name", name.value);
+            formData.append("category_id", categoryChoosed.value);
+            formData.append("price", price.value);
+            formData.append("stock", stock.value);
+            formData.append("description", description.value);
+
+        if (productImage.value) {
+            formData.append("image", productImage.value);
         }
+
+        const result = await createProducts(formData);
+
+        console.log(result.status)
+
+        if (result.status === 201) {
+            alert("Deu boa!");
+        }
+
 
     }catch(error){
         console.log(error)
         console.log(categoryChoosed.value)
-    }
-
-    
+    }   
 }
 
 onMounted(() => {
@@ -94,7 +108,7 @@ onMounted(() => {
 
                             <div class="formProduct">
                                 <label>Product Image</label>
-                                <input class="productDescInput">
+                                <input @change="handleImage" type="file" class="productDescInput">
                             </div>
                         </div>
                     </section>
@@ -151,7 +165,6 @@ border-radius: 10px;
 cursor: pointer;  
 transition: 0.2s ease-in-out;
 margin: 50px 100px 0 ;
-
 }
 
 .submit:hover{
