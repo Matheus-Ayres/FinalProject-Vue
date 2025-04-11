@@ -1,38 +1,31 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getProducts } from '../../services/http';
+import { getAllProducts } from '../../services/http';
 
 const backendUrl= "http://35.196.79.227:8000"
 
+const products = ref({})
 
-const props = defineProps({
-    catId: Number,
-})
-
-const product = ref({})
-
-async function getProduct(){
+async function myProducts(){
     try{
-            const result = await getProducts(props.catId)
-            console.log(result)
-            product.value = result
-            
+
+        const result = await getAllProducts();
+        products.value = result
     }catch(error){
         console.log(error)
-    }
+    } 
 }
 
-onMounted( () => {
-    getProduct()
+onMounted(() => {
+    myProducts()
 })
-
 
 </script>
 
 <template>
     <div class="catalog">
 
-        <div v-for="infos in product" :key="infos.id">
+        <div v-for="infos in products" :key="infos.id">
 
             <div class="card">
 

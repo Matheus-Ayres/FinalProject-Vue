@@ -28,12 +28,12 @@ const user = useAuthStore()
         </diV>
 
         <div v-else-if="user.isAuthenticated && user.user.role == 'ADMIN'" class="loginPosition">
-            <RouterLink to="/AdminArea" class="registerStyle">
+            <RouterLink to="/AdminArea" class="loginStyle">
                 <p>
                     Admin Area
                 </p>
             </RouterLink>
-            <RouterLink class="registerStyle" to="/RegisterModerator">
+            <RouterLink class="loginStyle" to="/RegisterModerator">
                 <p>
                     Register Moderator
                 </p>    
@@ -46,7 +46,7 @@ const user = useAuthStore()
         </div>
         
         <div v-else-if="user.isAuthenticated && user.user.role == 'MODERATOR'" class="loginPosition">
-            <RouterLink class="registerStyle" to="/ModeratorArea">
+            <RouterLink class="loginStyle" to="/ModeratorArea">
                 <p>
                     Moderator Area
                 </p>    

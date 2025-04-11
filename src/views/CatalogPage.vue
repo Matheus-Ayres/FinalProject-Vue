@@ -8,15 +8,26 @@ import Categories from '../components/CategoriesComponents/CategoriesModerator.v
 
 <template>
     <NavHeader/>
-    <Categories class="categoriesPosition"/>
+    <div class="categoriesPosition">
+        <h1>
+            Category 
+        </h1>
+        <div>
+            <Categories/>
+        </div>
+    </div>
 </template>
 
 <style scoped>
     .categoriesPosition{
         display: flex;
         flex-direction: column;
-        margin: 0px 60px;
-        gap: 20px;
-        
+        margin: 50px 60px;
+        gap: 20px; 
+    }
+
+    h1{
+        color: var(--textSec);
+        font-family: "openSans";
     }
 </style>

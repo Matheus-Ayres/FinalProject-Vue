@@ -14,7 +14,7 @@ import NewProduct from '../components/ProductsComponents/NewProduct.vue';
             Category 
         </h1>
         <div>
-            <Categories />
+            <Categories/>
         </div>
     </div>
 </template>

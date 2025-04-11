@@ -50,7 +50,7 @@ async function createProduct() {
         if (result.status === 201) {
             alert("Deu boa!");
         }
-
+        emit('close')
 
     }catch(error){
         console.log(error)
@@ -91,7 +91,7 @@ onMounted(() => {
                             <label >Price *</label>
                             <div class="pricediv">
                                 <label class="usd"> US$ </label>
-                                <input v-model="price" class="productPriceInput" required placeholder="0.00" type="number">
+                                <input v-model="price" class="productPriceInput" required placeholder="0.00" type="number" step="0.01">
                             </div>
                         </div>
 
