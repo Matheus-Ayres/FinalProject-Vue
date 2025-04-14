@@ -45,6 +45,8 @@ onMounted(() => {
                 </div> 
             </div>
         </div>
+
+        
         <ProductCards v-if="idCat != null" :key="idCat" :catId="idCat" /> 
         <AllProductCards v-else/>
     </main>

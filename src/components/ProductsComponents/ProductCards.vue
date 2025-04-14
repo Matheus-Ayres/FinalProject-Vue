@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getProducts } from '../../services/http';
+import { getAllProducts, getProducts } from '../../services/http';
+import { useAuthStore } from '@/stores/auth.js'
+import { RouterLink } from 'vue-router';
 
 const backendUrl= "http://35.196.79.227:8000"
-
 
 const props = defineProps({
     catId: Number,
@@ -14,7 +15,6 @@ const product = ref({})
 async function getProduct(){
     try{
             const result = await getProducts(props.catId)
-            console.log(result)
             product.value = result
             
     }catch(error){
@@ -30,28 +30,25 @@ onMounted( () => {
 </script>
 
 <template>
-    <div class="catalog">
-
-        <div v-for="infos in product" :key="infos.id">
-
-            <div class="card">
-
-                <div class="imgArea">
-                    <img :src="backendUrl + infos.image_path" />
-                </div>
-
-                <div class="productNameAndPrice">
-                    <p>
-                        {{ infos.name }}
-                    </p>
-                    <p class="productPrice">
-                        US${{ infos.price }}
-                    </p>
+        
+            <div class="catalog">
+                <div v-for="infos in product" :key="infos.id">
+                    <RouterLink :to="'/ProductPage/' + infos.id" class="card">
+                        <div class="imgArea">
+                            <img :src="backendUrl + infos.image_path" />
+                        </div>
+                        <div class="productNameAndPrice">
+                            <p>
+                                {{ infos.name }}
+                            </p>
+                            <p class="productPrice">
+                                US${{ infos.price }}
+                            </p>
+                        </div>
+                    </RouterLink>
                 </div>
             </div>
-        </div>
 
-    </div>
 </template>
 
 <style scoped>
@@ -88,6 +85,7 @@ onMounted( () => {
         width: 250px;
         max-height: 350px;
         transition: transform 0.4s ease;
+        text-decoration: none;
     }
 
     img{

@@ -24,26 +24,21 @@ onMounted(() => {
 
 <template>
     <div class="catalog">
-
         <div v-for="infos in products" :key="infos.id">
-
-            <div class="card">
-
-                <div class="imgArea">
-                    <img :src="backendUrl + infos.image_path" />
-                </div>
-
-                <div class="productNameAndPrice">
-                    <p>
-                        {{ infos.name }}
-                    </p>
-                    <p class="productPrice">
-                        US${{ infos.price }}
-                    </p>
-                </div>
-            </div>
+            <RouterLink :to="'/ProductPage/' + infos.id" class="card">
+                        <div class="imgArea">
+                            <img :src="backendUrl + infos.image_path" />
+                        </div>
+                        <div class="productNameAndPrice">
+                            <p>
+                                {{ infos.name }}
+                            </p>
+                            <p class="productPrice">
+                                US${{ infos.price }}
+                            </p>
+                        </div>
+                    </RouterLink>
         </div>
-
     </div>
 </template>
 
@@ -81,6 +76,7 @@ onMounted(() => {
         width: 250px;
         max-height: 350px;
         transition: transform 0.4s ease;
+        text-decoration: none;
     }
 
     img{

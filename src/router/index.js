@@ -6,6 +6,7 @@ import ProfilePage from '@/views/ProfilePage.vue'
 import RegisterModerator from '@/views/RegisterModerator.vue'
 import AdminArea from '@/views/AdminArea.vue'
 import ModeratorArea from '../views/ModeratorArea.vue'
+import ProductPage from '../views/ProductPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/ModeratorArea',
       name: 'ModeratorArea',
       component: ModeratorArea
+    },
+    {
+      path: '/ProductPage/:id',
+      name: 'ProductPage',
+      component: ProductPage
     }
   ],
 })
