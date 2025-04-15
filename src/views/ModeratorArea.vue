@@ -1,8 +1,9 @@
 <script setup>
+import { ref } from 'vue';
 import Categories from '../components/CategoriesComponents/CategoriesModerator.vue';
 import NavHeader from '../components/NavHeader.vue';
 import NewProduct from '../components/ProductsComponents/NewProduct.vue';
-
+import EditProduct from '../components/ProductsComponents/EditProduct.vue';
 
 </script>
 

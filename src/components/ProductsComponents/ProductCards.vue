@@ -3,14 +3,19 @@ import { onMounted, ref } from 'vue';
 import { getAllProducts, getProducts } from '../../services/http';
 import { useAuthStore } from '@/stores/auth.js'
 import { RouterLink } from 'vue-router';
+import EditProduct from './EditProduct.vue';
 
 const backendUrl= "http://35.196.79.227:8000"
+const modal = ref(false)
+const user = useAuthStore()
 
 const props = defineProps({
     catId: Number,
 })
 
 const product = ref({})
+
+
 
 async function getProduct(){
     try{
@@ -33,6 +38,7 @@ onMounted( () => {
         
             <div class="catalog">
                 <div v-for="infos in product" :key="infos.id">
+                    <EditProduct :catId="infos.category.id" :prodId="infos.id" v-if="user.isAuthenticated && user.user.role == 'MODERATOR'"/>
                     <RouterLink :to="'/ProductPage/' + infos.id" class="card">
                         <div class="imgArea">
                             <img :src="backendUrl + infos.image_path" />
@@ -49,9 +55,11 @@ onMounted( () => {
                 </div>
             </div>
 
+            
 </template>
 
 <style scoped>
+
 
 
     .productPrice{

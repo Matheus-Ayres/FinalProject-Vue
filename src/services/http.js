@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0NjkwMDQzfQ.JeGiboiIMYs0sc1vNyKBbHGBxmHXUn2RsT4rvIkeEKg'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0Nzc2NDM5fQ.MFa54F0-N4oysrhzpJ50E8o8vqlIi4PrZqP4NGAnDLE'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -111,6 +111,28 @@ return response.data
 
 export async function getProduct(idProd) {
     const response = await API.get(`products/${idProd}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }) 
+return response.data
+}
+
+export async function updatePoduct(idProd, payload) {
+    const response = await API.put(`products/${idProd}`,payload,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }) 
+return response.data
+}
+
+export async function updateStockPoduct(idProd, payload) {
+    const response = await API.put(`products/${idProd}/stock`,payload,{
         headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',

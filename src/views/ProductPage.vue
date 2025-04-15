@@ -41,6 +41,7 @@ onMounted(() =>{
                 <p>Deliever to adress</p>
                 <div v-if="product.stock > 0">
                     <p class="inStock">In Stock</p>
+                    <span>{{ product.stock }}</span>
                 </div>
                 <div v-else>
                     <p class="outStock">Out Stock</p>
