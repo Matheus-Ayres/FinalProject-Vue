@@ -1,8 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getAllProducts } from '../../services/http';
+import EditProduct from './EditProduct.vue';
+import { useAuthStore } from '@/stores/auth';
+import { useRoute } from 'vue-router';
 
 const backendUrl= "http://35.196.79.227:8000"
+const user= useAuthStore()
+const route = useRoute()
 
 const products = ref({})
 
@@ -25,6 +30,7 @@ onMounted(() => {
 <template>
     <div class="catalog">
         <div v-for="infos in products" :key="infos.id">
+            <EditProduct :catId="infos.category.id" :prodId="infos.id" v-if="user.isAuthenticated && user.user.role == 'MODERATOR' && route.path == '/ModeratorArea'"/>
             <RouterLink :to="'/ProductPage/' + infos.id" class="card">
                         <div class="imgArea">
                             <img :src="backendUrl + infos.image_path" />

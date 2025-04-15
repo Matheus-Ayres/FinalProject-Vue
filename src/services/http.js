@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0Nzc2NDM5fQ.MFa54F0-N4oysrhzpJ50E8o8vqlIi4PrZqP4NGAnDLE'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0NzkzMjIwfQ.U_SxC22MFBxIzRJOWRetTMQ8d33zq8hRupGTwQLGblU'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -133,6 +133,17 @@ return response.data
 
 export async function updateStockPoduct(idProd, payload) {
     const response = await API.put(`products/${idProd}/stock`,payload,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }) 
+return response.data
+}
+
+export async function deleteProducts(idProd) {
+    const response = await API.delete(`products/${idProd}`, {
         headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',

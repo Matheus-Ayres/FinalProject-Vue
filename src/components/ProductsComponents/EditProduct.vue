@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getProduct, updatePoduct, updateStockPoduct } from '../../services/http'
+import { deleteProducts, getProduct, updatePoduct, updateStockPoduct } from '../../services/http'
 import { useAuthStore } from '@/stores/auth.js'
 
 
@@ -16,6 +16,8 @@ const name = ref('')
 const price = ref('')
 const stock = ref('')
 const description = ref('')
+const verify = ref('')
+
 
 async function getProductEdit() {
     try{
@@ -89,6 +91,21 @@ function closeModalDelete(){
         modalDelete.value = false
     }
 }
+
+async function deleteProduct(){
+    try{
+        if(verify.value == 'DELETE'){
+            await deleteProducts(props.prodId)
+            closeModalDelete()
+        }else{
+            alert("You must type 'DELETE'")
+        }
+        
+    }catch(error){
+        console.log(error)
+    }
+}
+
 onMounted(() =>{
     getProductEdit()
 })
@@ -105,7 +122,14 @@ onMounted(() =>{
         <div class="delete">
             <div class="closePosition">
                 <img @click="closeModalDelete" src="@/assets/icons/icons8-excluir.svg" class="close">
-            </div>  
+            </div>
+            <form @submit.prevent="deleteProduct">
+                <main class="confirm">
+                    <label class="confirmDelete">Type 'DELETE' to confirm</label>
+                    <input type="text" required v-model="verify" class="inputDelete">
+                    <button class="submit" type="submit">DELETE</button>
+                </main>
+            </form>
         </div>
     </div>
 
@@ -147,11 +171,31 @@ onMounted(() =>{
 </template>
 
 <style scoped>
+    .confirm{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .inputDelete{
+        align-self: center;
+        outline: none;
+        padding: 2px;
+        font-size: 1.2rem;
+        border-radius: 20px;
+        text-align: center;
+    }
+
+    .confirmDelete{
+        color: white;
+    }
+
     .buttons{
         display: flex;
-        gap: 20px;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        gap: 20px;
     }
 
     .trash{
@@ -170,10 +214,10 @@ onMounted(() =>{
     }
 
     .delete{
-        background-color: rgb(78, 78, 78);
+        background-color: rgb(0, 0, 0);
         padding: 20px;
         border-radius: 10px;
-        max-width: 80%; 
+        max-width: 80%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 
@@ -241,7 +285,7 @@ margin: 50px 100px 0 ;
 
 .submit:hover{
 border: white 1px solid;
-transform: scale(1.05);
+
 }
 
 .productInfos{
