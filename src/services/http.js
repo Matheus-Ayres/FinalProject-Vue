@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0NzkzMjIwfQ.U_SxC22MFBxIzRJOWRetTMQ8d33zq8hRupGTwQLGblU'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Iiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzQ0ODY2MTEyfQ.5SW_ktLVSqa4JT-EXX2l_BPbpMCi7L9wXZ1XKBfqejo'
 
 export async function login(payload){
         const response = await API.post('login', payload)
@@ -28,6 +28,16 @@ export async function registerModerator(payload) {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',
             'Content-Type': 'application/json'
+        },
+    }) 
+return response
+}
+
+export async function changeUserInfos(payload, token) {
+    const response = await API.put('users/me', payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            
         },
     }) 
 return response

@@ -4,10 +4,11 @@ import NavHeader from '@/components/NavHeader.vue';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
+import EditUserInfos from '../components/UserComponents.vue/EditUserInfos.vue';
 
 const user = useAuthStore()
-const inputs = ref(false)
-const userPFP = ref('/src/assets/icons/testpfp.jpeg')
+const modal = ref(false)
+const userPFP = ref(user.user.image_path)
 const editPfpForm = ref(false)
 
 
@@ -16,8 +17,8 @@ function logout(){
     router.push('/Login')
 }
 
-function editInfos(){
-    inputs.value = true
+function modalInfos(){
+    modal.value = true
 }
 
 function changePFP(){
@@ -28,9 +29,6 @@ function changePFP(){
 
 <template>
     <NavHeader/>
-
-    
-
     <div class="profileTop">
         
         <div class="userInfos">
@@ -41,6 +39,7 @@ function changePFP(){
                         <div class="overlay"></div>
                     </div>
                 </div>
+                <EditUserInfos/>
                 <p @click="logout" class="logout">Logout</p>
             </div>
             <div class="userDesc">
@@ -53,18 +52,11 @@ function changePFP(){
                 <div v-else class="userNameArea">
                     <p class="usernameStyle">{{ user.user.name }}</p>
                 </div>
-
-                <input v-if="!editInfos">
-
                 <p>
                     {{ user.user.email }}
                 </p>
-
-                <!-- <p>Role: {{ user.user.role }}</p> -->
-                <img src="/src/assets/icons/pen.svg" class="edit">
             </div>
         </div>
-        
     </div>
     
     
@@ -72,18 +64,18 @@ function changePFP(){
 </template>
 
 <style scoped>
+.edit:hover{
+    cursor: pointer;
+    color: var(--lightGray);
+}
+
+
 .ordenar{
     display: flex;
     flex-direction: column;
 }
 
-.edit{
-    width: 40px;
-}
 
-.edit:hover{
-    cursor: pointer;
-}
 
 .userNameArea{
     display: flex;
@@ -159,7 +151,6 @@ p{
 }
 
 .logout{
-    color: var(--purp2);
     margin-top: 10px;
 }
 
