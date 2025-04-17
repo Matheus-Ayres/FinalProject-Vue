@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { register } from '@/services/http';
 import { useAuthStore } from '@/stores/auth.js'
 import router from '@/router';
+import { login } from '../services/http';
 
 const authUser = useAuthStore() 
 
@@ -46,11 +47,14 @@ async function submit() {
                     }
                 )
                 if(result.status == 201){
-                    alert('Deu boa')
-                    authUser.saveUser(result.data)
+                    const loginResult = await login({
+                    email: email.value,
+                    password: password.value
+                })
+
+                    authUser.saveUser(loginResult.data)
                     router.push('/')
-                }   
-                
+                } 
         }
     }catch(error){
         console.log('register deu ruim')

@@ -1,42 +1,52 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
-import { changeUserInfos } from '../../services/http'
+import { changeUserInfos, deleteUser, getUser } from '../../services/http'
+import router from '../../router'
 
-const user = useAuthStore()
+
+const auth = useAuthStore()
 const modal = ref(false)
-const name = ref(user.user.name)
-const email = ref(user.user.email)
-const object = ref({})
+const user = ref({})
+const name = ref('')
+const email = ref(user.email)
+const modalDelete = ref(false)
+const verify = ref('')
 
-function submit(){
-    populateObject()
-    closeModal()
-    editInfo()
-}
-
-function populateObject() {
-    if (name.value && name.value !== user.user.name) {
-        object.value.name = name.value
-    }
-    if (email.value && email.value !== user.user.email) {
-        object.value.email = email.value
-    }
-    return object.value
-}
-
-async function editInfo(){
-    const token = user.token
-    const changes = populateObject()
-    console.log('Mudanças: ', token)
+async function editName(){
     try{
-        const result = await changeUserInfos(changes, token)
+        await changeUserInfos({
+            name: name.value
+        })
+        
+    }catch(error){
+        console.log(error)
+    }
+    alert("Username changed")
+}
 
-        if(result.status === 200){
-            user.saveUpdatedUser(result.data)
+async function editEmail(){
+    try{
+        await changeUserInfos({
+            email: email.value
+        })
+        alert("Email changed:")
+    }catch(error){
+        console.log(error)
+    }
+}
+
+async function deleteAccount(){
+    try{
+        // 
+        if(verify.value == 'DELETE'){
+            await deleteUser()
+            alert("Account Deleted")
+            auth.logout()
+            router.push('/Register')
+        }else{
+            alert("You must type 'DELETE'")
         }
-
-        console.log(result.status)
     }catch(error){
         console.log(error)
     }
@@ -53,55 +63,129 @@ function closeModal(){
     if (modal.value == true){
         modal.value = false
     }
+    window.location.reload()
 }
+
+function openModalDelete(){
+    if(modalDelete.value == false){
+        modalDelete.value = true
+    }
+}
+
+function closeModalDelete(){
+    if (modal.value == true){
+        modal.value = false
+    }
+    if (modalDelete.value == true){
+        modalDelete.value = false
+    }
+}
+
+async function getUserInfos() {
+    try{
+        const result = await getUser()
+        user.value = result.data
+    }catch(error){
+        console.log(error)
+    }
+}
+
+onMounted(() =>{
+    getUserInfos()
+})
+
 
 
 </script>
 
 <template>
-    <p  @click="openModal" class="edit"> EDIT</p>
-    <div v-if="modal" class="modal-open">
-        <div class="modal">
+    <p  @click="openModal" class="edit"> Edit</p>
+    <p @click="openModalDelete" class="delete">Delete account </p>
+
+    <div v-if="modalDelete" class="modal-open">
+        <div class="deleteModal">
             <div class="closePosition">
-                <img @click="closeModal" src="@/assets/icons/icons8-excluir.svg" class="close">
+                <img @click="closeModalDelete" src="@/assets/icons/icons8-excluir.svg" class="close">
             </div>
-            <main>
-                <form @submit.prevent="submit">
-                    <section class="productInfos">
-                        <div class="formProduct">
-                            <label>Current Username: {{ user.user.name }}</label>
-                            <input v-model="name" class="productNameInput" placeholder="New Name">
-                        </div>
-
-                        <div class="formProduct">
-                            <label >Current Email: {{ user.user.email }} </label>
-                            <div class="pricediv">
-                                <input v-model="email" class="productPriceInput" type="email" placeholder="Email">
-                            </div>
-                        </div>
-                    </section>
-
-
-                    <button class="submit">EDIT INFOS</button>
-                </form>
-            </main>
+            <form @submit.prevent="deleteAccount">
+                <main class="confirm">
+                    <label class="confirmDelete">Type 'DELETE' to confirm</label>
+                    <input type="text" required v-model="verify" class="inputDelete">
+                    <button class="submitDelete" type="submit">DELETE</button>
+                </main>
+            </form>
         </div>
     </div>
+
+
+
+
+        <div v-if="modal" class="modal-open">
+            <div class="modal">
+                <div class="closePosition">
+                    <img @click="closeModal" src="@/assets/icons/icons8-excluir.svg" class="close">
+                </div>
+                <main>
+                    <section class="productInfos">
+                            <form @submit.prevent="editName">
+                                <div class="formProduct">
+                                    <label>Current Username: {{ user.name }}</label>
+                                    <input v-model="name" class="productNameInput" placeholder="New Name">
+                                    <button class="submit">EDIT NAME</button>
+                                </div>
+                            </form>
+                            
+                            <form @submit.prevent="editEmail">
+                                <div class="formProduct">
+                                    <label >Current Email: {{ user.email }} </label>
+                                    <div class="pricediv">
+                                        <input v-model="email" class="productPriceInput" type="email" placeholder="Email">
+                                    </div>
+                                    <button class="submit">EDIT EMAIL</button>
+                                </div>
+                            </form>
+                        </section>
+                </main>
+            </div>
+        </div>
 </template>
 
 <style scoped>
 
+.deleteModal{
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
 .edit{
-    width: 40px;
+    width: 100%;
     font-family: "openSans";
     color: white;
     font-size: 1.2rem;
+    margin-bottom: 20px;
 }
 
 .edit:hover{
     cursor: pointer;
     color: var(--lightGray);
 }
+
+.delete{
+    width: 100%;
+    font-family: "openSans";
+    color: white;
+    font-size: 1.2rem;
+}
+
+.delete:hover{
+    cursor: pointer;
+    color: red;
+}
+
+
     .confirm{
         display: flex;
         flex-direction: column;
@@ -137,19 +221,9 @@ function closeModal(){
         align-items: center;
     }
 
-    .modal-open{
-        position: fixed;
-        inset: 0;
-        z-index: 99;
-        background-color: rgb(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .modal{
         background-color: white;
-        padding: 20px;
+        padding: 30px;
         border-radius: 10px;
         max-width: 80%; 
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -172,25 +246,37 @@ function closeModal(){
 font-family: "Roboto", "openSans";
 font-weight: bold;
 color: white;
-padding: 10px 100px;
+padding: 10px 50px;
 font-size: 1.2rem;
 background-image: linear-gradient(to right,#628EFF, #8740CD, #580475);
 border: none;
 border-radius: 10px;
 cursor: pointer;  
 transition: 0.2s ease-in-out;
-margin: 50px 100px 0 ;
-}
-
-.submit:hover{
-border: white 1px solid;
+max-width: 50%;
 
 }
+
+.submitDelete{
+font-family: "Roboto", "openSans";
+font-weight: bold;
+color: white;
+padding: 10px 50px;
+font-size: 1.2rem;
+background-image: linear-gradient(to right,#628EFF, #8740CD, #580475);
+border: none;
+border-radius: 10px;
+cursor: pointer;  
+transition: 0.2s ease-in-out;
+max-width: 100%;
+
+}
+
 
 .productInfos{
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 

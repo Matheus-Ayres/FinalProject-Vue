@@ -18,11 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
         token.value = result.token
     }
 
-    function saveUpdatedUser(result){
-        user.value = result
-    }
-
-    return {token, user, isAuthenticated, logout, saveUser, saveUpdatedUser}
+    return {token, user, isAuthenticated, logout, saveUser}
 }, 
     {persist: true}
 ) 

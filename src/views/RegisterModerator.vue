@@ -59,7 +59,7 @@ async function submit() {
 }
 
 function resetInvalid(){
-   equalPassword.value = false
+ equalPassword.value = false
 }
 
 </script>

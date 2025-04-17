@@ -1,29 +1,42 @@
 <script setup>
-import EditPFP from '@/components/EditPFP.vue';
 import NavHeader from '@/components/NavHeader.vue';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import EditUserInfos from '../components/UserComponents.vue/EditUserInfos.vue';
+import { getUser } from '../services/http';
+import EditPfP from '../components/UserComponents.vue/EditPfP.vue';
 
-const user = useAuthStore()
+const auth = useAuthStore()
 const modal = ref(false)
-const userPFP = ref(user.user.image_path)
-const editPfpForm = ref(false)
-
+const editpfp = ref(false)
+const user = ref({})
 
 function logout(){
-    user.logout()
+    auth.logout()
     router.push('/Login')
 }
 
-function modalInfos(){
-    modal.value = true
+async function getUserInfos() {
+    try{
+        const result = await getUser()
+        user.value = result.data
+    }catch(error){
+        console.log(error)
+    }
 }
 
 function changePFP(){
-    editPfpForm.value = true
+    if(editpfp.value == false){
+        editpfp.value = true
+    }
 }
+
+
+onMounted(() =>{
+    getUserInfos()
+})
+
 
 </script>
 
@@ -32,30 +45,31 @@ function changePFP(){
     <div class="profileTop">
         
         <div class="userInfos">
-            <div>
-                <div class="Image" @click="changePFP">
-                    <div> 
-                        <img class="profileImage" :src="userPFP"/>
-                        <div class="overlay"></div>
+                <div>
+                    <div class="Image" @click="changePFP">
+                        <div> 
+                            <img class="profileImage" :src="user.image_path"/>
+                            <div class="overlay"></div>
+                        </div>
                     </div>
+                    <EditPfP v-if="editpfp"/>
+                    <EditUserInfos/>
+                    <p @click="logout" class="logout">Logout</p>
                 </div>
-                <EditUserInfos/>
-                <p @click="logout" class="logout">Logout</p>
-            </div>
-            <div class="userDesc">
-                <div v-if="user.user.role == 'ADMIN' || user.user.role == 'MODERATOR'" class="userNameArea">
-                        <p class="usernameStyle">{{ user.user.name }}</p>
-                        <img src="/src/assets/icons/verify.png" class="verify">
-                        <p>{{ user.user.role }}</p>  
-                </div>
+                <div class="userDesc">
+                    <div v-if="user.role == 'ADMIN' || user.role == 'MODERATOR'" class="userNameArea">
+                            <p class="usernameStyle">{{ user.name }}</p>
+                            <img src="/src/assets/icons/verify.png" class="verify">
+                            <p>{{ user.role }}</p>  
+                    </div>
 
-                <div v-else class="userNameArea">
-                    <p class="usernameStyle">{{ user.user.name }}</p>
+                    <div v-else class="userNameArea">
+                        <p class="usernameStyle">{{ user.name }}</p>
+                    </div>
+                    <p>
+                        {{ user.email }}
+                    </p>
                 </div>
-                <p>
-                    {{ user.user.email }}
-                </p>
-            </div>
         </div>
     </div>
     
