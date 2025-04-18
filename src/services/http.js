@@ -47,6 +47,15 @@ export async function deleteUser() {
     return response
 }
 
+export async function updatePFP(formData) {
+    const response = await API.put('users/image', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    return response
+}
+
 // ========== CATEGORIES ==========
 export async function registerCategories(payload) {
     const response = await API.post('categories/', payload, {

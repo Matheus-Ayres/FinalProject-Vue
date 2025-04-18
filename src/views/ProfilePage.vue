@@ -11,16 +11,18 @@ const auth = useAuthStore()
 const modal = ref(false)
 const editpfp = ref(false)
 const user = ref({})
+const backendUrl= "http://35.196.79.227:8000"
 
 function logout(){
     auth.logout()
     router.push('/Login')
 }
 
-async function getUserInfos() {
+async function getUserInfos(){
     try{
         const result = await getUser()
         user.value = result.data
+        console.log("User info:", user.value);
     }catch(error){
         console.log(error)
     }
@@ -29,6 +31,12 @@ async function getUserInfos() {
 function changePFP(){
     if(editpfp.value == false){
         editpfp.value = true
+    }
+}
+
+function closeModal(){
+    if(editpfp.value == true){
+        editpfp.value = false
     }
 }
 
@@ -48,11 +56,11 @@ onMounted(() =>{
                 <div>
                     <div class="Image" @click="changePFP">
                         <div> 
-                            <img class="profileImage" :src="user.image_path"/>
+                            <img class="profileImage" :src="backendUrl + user.image_path"/>
                             <div class="overlay"></div>
                         </div>
                     </div>
-                    <EditPfP v-if="editpfp"/>
+                    <EditPfP v-if="editpfp" @close="closeModal"/>
                     <EditUserInfos/>
                     <p @click="logout" class="logout">Logout</p>
                 </div>
@@ -127,7 +135,7 @@ p{
     border: var(--lightPurple) solid 2px;
     border-radius: 20px;
     width: 14vw;
-    height: 26vh;
+    height: 30vh;
     overflow: hidden;
 }
 

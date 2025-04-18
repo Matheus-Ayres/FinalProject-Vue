@@ -1,4 +1,47 @@
 <script setup>
+import { updatePFP } from '@/services/http';
+import { ref } from 'vue';
+
+
+const previewImage = ref(null)
+const profileImage = ref('')
+const emit = defineEmits(['close'])
+
+function closeModal(){
+    emit('close')
+    window.location.reload()
+}
+
+function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+        profileImage.value = file;
+        previewImage.value = URL.createObjectURL(file);
+    }
+}
+
+async function changePFP(){
+    try{
+        const formData = new FormData();
+        if (profileImage.value) {
+            formData.append("image", profileImage.value);
+        }
+
+        const result = await updatePFP(formData);
+
+        console.log(result.status)
+
+        if (result.status === 201) {
+            alert("Deu boa!");
+        }
+        emit('close')
+        window.location.reload()
+
+    }catch(error){
+        console.log(error)
+    }
+}
+
 
 </script>
 
@@ -14,8 +57,12 @@
                         <div class="formProduct">
                             <label for="profile-picture">Select Profile Picture:</label>
                             <div class="file-input-wrapper">
-                                <input id="profile-picture" type="file" accept="image/*" class="file-input">
+                                <input id="profile-picture" type="file" @change="handleFileChange" class="file-input">
                                 <label for="profile-picture" class="file-label">Choose a file</label>
+                            </div>
+                            <div v-if="previewImage" class="preview-container">
+                                
+                                <img :src="previewImage" alt="Preview" class="image-preview" />
                             </div>
                             <button class="submit">Change Picture</button>
                         </div>
@@ -27,6 +74,18 @@
 </template>
 
 <style scoped>
+
+.preview-container {
+    margin-top: 10px;
+}
+
+.image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
 label{
     font-family: "openSans";
     font-size: 1.2rem;
