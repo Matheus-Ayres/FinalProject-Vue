@@ -5,6 +5,7 @@ import { ref } from 'vue';
 
 const previewImage = ref(null)
 const profileImage = ref('')
+
 const emit = defineEmits(['close'])
 
 function closeModal(){
@@ -33,15 +34,38 @@ async function changePFP(){
 
         if (result.status === 201) {
             alert("Deu boa!");
+            
         }
         emit('close')
         window.location.reload()
-
     }catch(error){
         console.log(error)
     }
 }
 
+async function removePic(){
+    profileImage.value = '/uploads/defaults/no_profile_image.png'
+
+    try{
+        const formData = new FormData();
+        if (profileImage.value) {
+            formData.append("image", profileImage.value);
+        }
+
+        const result = await updatePFP(formData);
+
+        console.log(result.status)
+
+        if (result.status === 201) {
+            alert("Deu boa!");
+            
+        }
+        emit('close')
+        window.location.reload()
+    }catch(error){
+        console.log(error)
+    }
+}
 
 </script>
 
@@ -59,6 +83,9 @@ async function changePFP(){
                             <div class="file-input-wrapper">
                                 <input id="profile-picture" type="file" @change="handleFileChange" class="file-input">
                                 <label for="profile-picture" class="file-label">Choose a file</label>
+                                <form @submit.prevent="removePic">
+                                    <button class="remove" type="submit">Remove Profile Picture</button>
+                                </form>
                             </div>
                             <div v-if="previewImage" class="preview-container">
                                 
@@ -74,6 +101,24 @@ async function changePFP(){
 </template>
 
 <style scoped>
+.remove{
+    background-color: none;
+    border: red 1px solid;
+    color: red;
+    padding: 5px;
+    margin-left: 10px;
+    font-family: "openSans";
+    border-radius: 20px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.remove:hover{
+    background-color: red;
+    border: red 1px solid;
+    color: white;
+    cursor: pointer;
+}
 
 .preview-container {
     margin-top: 10px;
@@ -131,6 +176,7 @@ label{
 }
 
 .file-input-wrapper {
+    display: flex;
     position: relative;
     width: 100%;
     height: 50px;

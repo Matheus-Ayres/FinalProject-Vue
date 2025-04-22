@@ -55,10 +55,15 @@ onMounted(() =>{
         <div class="userInfos">
                 <div>
                     <div class="Image" @click="changePFP">
-                        <div> 
+                        <div v-if="user.image_path != 	'/uploads/defaults/no_profile_image.png'"> 
                             <img class="profileImage" :src="backendUrl + user.image_path"/>
                             <div class="overlay"></div>
                         </div>
+                        <div v-else > 
+                            <img class="profileImage" src="/src/assets/icons/user.jpg"/>
+                            <div class="overlay"></div>
+                        </div>
+                        
                     </div>
                     <EditPfP v-if="editpfp" @close="closeModal"/>
                     <EditUserInfos/>
@@ -148,7 +153,7 @@ p{
     background-color: rgb(0, 0, 0);
     opacity: 0; 
     transition: opacity 0.3s ease;
-    border-radius: 20px;
+    
 }
 
 .Image:hover .overlay {
