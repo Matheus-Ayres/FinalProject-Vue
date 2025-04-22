@@ -31,19 +31,32 @@ onMounted(() => {
     <div class="catalog">
         <div v-for="infos in products" :key="infos.id">
             <EditProduct :catId="infos.category.id" :prodId="infos.id" v-if="user.isAuthenticated && user.user.role == 'MODERATOR' && route.path == '/ModeratorArea'"/>
-            <RouterLink :to="'/ProductPage/' + infos.id" class="card">
-                        <div class="imgArea">
-                            <img :src="backendUrl + infos.image_path" />
-                        </div>
-                        <div class="productNameAndPrice">
-                            <p>
-                                {{ infos.name }}
-                            </p>
-                            <p class="productPrice">
-                                US${{ infos.price }}
-                            </p>
-                        </div>
-                    </RouterLink>
+            <RouterLink v-if="user.isAuthenticated" :to="'/ProductPage/' + infos.id" class="card">
+                <div class="imgArea">
+                    <img :src="backendUrl + infos.image_path" />
+                </div>
+                <div class="productNameAndPrice">
+                    <p>
+                        {{ infos.name }}
+                    </p>
+                    <p class="productPrice">
+                        US${{ infos.price }}
+                    </p>
+                </div>
+            </RouterLink>
+            <RouterLink v-if="!user.isAuthenticated" to="/Login" class="card">
+                <div class="imgArea">
+                    <img :src="backendUrl + infos.image_path" />
+                </div>
+                <div class="productNameAndPrice">
+                    <p>
+                        {{ infos.name }}
+                    </p>
+                    <p class="productPrice">
+                        US${{ infos.price }}
+                    </p>
+                </div>
+            </RouterLink>
         </div>
     </div>
 </template>

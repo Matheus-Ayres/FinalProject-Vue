@@ -122,3 +122,30 @@ export async function deleteProducts(idProd) {
     const response = await API.delete(`products/${idProd}`)
     return response.data
 }
+
+// ========== ADDRESSES ==========
+
+export async function getAddresses() {
+    const response = await API.get('addresses/')
+    return response.data
+}
+
+export async function getAddressByID(idAddress) {
+    const response = await API.get(`addresses/${idAddress}`)
+    return response.data
+}
+
+export async function createAddress(payload) {
+    const response = await API.post('addresses/', payload)
+    return response.data
+}
+
+export async function updateAddress(idAddress, payload) {
+    const response = await API.put(`addresses/${idAddress}`, payload)
+    return response.data
+}
+
+export async function deleteAddressess(idAddress) {
+    const response = await API.delete(`addresses/${idAddress}`)
+    return response.data
+}

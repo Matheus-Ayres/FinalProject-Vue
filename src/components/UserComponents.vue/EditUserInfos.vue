@@ -15,10 +15,11 @@ const verify = ref('')
 
 async function editName(){
     try{
-        await changeUserInfos({
-            name: name.value
-        })
-        
+        await changeUserInfos({ name: name.value })
+        user.value.name = name.value
+        alert("Username changed")
+        modal.value = false
+
     }catch(error){
         console.log(error)
     }
@@ -27,10 +28,11 @@ async function editName(){
 
 async function editEmail(){
     try{
-        await changeUserInfos({
-            email: email.value
-        })
-        alert("Email changed:")
+        await changeUserInfos({ email: email.value })
+        user.value.email = email.value
+        alert("Email changed")
+        modal.value = false
+
     }catch(error){
         console.log(error)
     }
@@ -93,8 +95,6 @@ async function getUserInfos() {
 onMounted(() =>{
     getUserInfos()
 })
-
-
 
 </script>
 

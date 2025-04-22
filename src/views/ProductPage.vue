@@ -38,10 +38,10 @@ onMounted(() =>{
         <div class="buyInfos">
             <div class="middleCard">
                 <span>${{ product.price }}</span>
-                <p>Deliever to adress</p>
+                <p>Deliver to adress</p>
                 <div v-if="product.stock > 0">
                     <p class="inStock">In Stock</p>
-                    <span>{{ product.stock }}</span>
+                    <span>Quantity {{ product.stock }}</span>
                 </div>
                 <div v-else>
                     <p class="outStock">Out Stock</p>
