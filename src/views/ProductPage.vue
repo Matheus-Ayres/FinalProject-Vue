@@ -8,6 +8,7 @@ const backendUrl= "http://35.196.79.227:8000"
 
 const route = useRoute()
 const product = ref({})
+const quantity = ref(1)
 
 async function getProductSelected(idProd){
     try{
@@ -40,9 +41,15 @@ onMounted(() =>{
                 <span>${{ product.price }}</span>
                 <p>Deliver to adress</p>
                 <div v-if="product.stock > 0">
-                    <p class="inStock">In Stock</p>
-                    <span>Quantity {{ product.stock }}</span>
+                    <div class="quantity">
+                        <p class="inStock">In Stock</p>
+                        <span>Quantity:  </span>
+                        <div class="counter">
+                            <span>{{ quantity }}</span>
+                        </div>
+                    </div>
                 </div>
+                
                 <div v-else>
                     <p class="outStock">Out Stock</p>
                 </div>
@@ -56,6 +63,16 @@ onMounted(() =>{
 </template>
 
 <style scoped>
+    .quantity{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .counter{
+        border-radius: 20px;
+        border: solid 2px var(--lightBlue);
+    }
+
     .middleCard{
         display: flex;
         flex-direction: column;

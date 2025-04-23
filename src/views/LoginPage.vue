@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.js'
 import { login } from '@/services/http.js'
 import router from '@/router';
+import { createCart } from '../services/http';
 
 const authUser = useAuthStore() 
 const email = ref('')
@@ -24,8 +25,12 @@ async function submit() {
         )
 
             if (result.status == 200){
-                alert('Deu boa')
                 authUser.saveUser(result.data)
+                    try{
+                        await createCart()
+                    }catch(error){
+                        console.log(error)
+                    }
                 router.push('/')
             }
             

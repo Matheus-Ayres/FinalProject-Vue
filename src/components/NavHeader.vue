@@ -1,9 +1,17 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import cartIcon1 from '@/assets/icons/cart.png'
+import cartIcon2 from '@/assets/icons/cart2.png'
 
 
 const user = useAuthStore()
+const cart1 = ref(cartIcon1)
+const cart2 = ref(cartIcon2)
+
+const currentCart = ref(cart1.value)
+
 
 </script>
 
@@ -46,6 +54,10 @@ const user = useAuthStore()
         </div>
         
         <div v-else-if="user.isAuthenticated && user.user.role == 'MODERATOR'" class="loginPosition">
+            <RouterLink to="/CartPage" class="cart-wrapper">
+                <img class="cart cart-default" :src="cart1" alt="Cart icon">
+                <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+            </RouterLink>
             <RouterLink class="loginStyle" to="/ModeratorArea">
                 <p>
                     Moderator Area
@@ -59,6 +71,11 @@ const user = useAuthStore()
         </div>
 
         <div v-else class="loginPosition">
+            <RouterLink to="/CartPage" class="cart-wrapper">
+                <img class="cart cart-default" :src="cart1" alt="Cart icon">
+                <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+            </RouterLink>
+
             <RouterLink class="registerStyle" to="/Profile">
                 <p>
                     Profile
@@ -69,6 +86,33 @@ const user = useAuthStore()
 </template>
 
 <style scoped>
+    .cart-wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    }
+
+    .cart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: opacity 0.3s ease;
+    }
+
+    .cart-hover {
+    opacity: 0;
+    }
+
+    .cart-wrapper:hover .cart-hover {
+    opacity: 1;
+    }
+
+    .cart-wrapper:hover .cart-default {
+    opacity: 0;
+    }
+
+
 
 .techplace{
 color: white;

@@ -149,3 +149,21 @@ export async function deleteAddressess(idAddress) {
     const response = await API.delete(`addresses/${idAddress}`)
     return response.data
 }
+
+// ========== CART ==========
+
+export async function createCart() {
+    const response = await API.post('cart/')
+    return response.data
+}
+
+export async function getCart() {
+    const response = await API.get('cart/')
+    return response.data
+}
+
+export async function getCartItems() {
+    const response = await API.get('cart/items')
+    return response.data
+}
+
