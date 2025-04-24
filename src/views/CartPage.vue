@@ -24,7 +24,7 @@ onMounted(() => {
     <NavHeader/>
     <div class="cart" v-if="cart">
         <div v-for="item in cart.items" :key="item.id" class="products">
-            <CartProducts :prodID="item.product_id"/>
+            <CartProducts :prodID="item.product_id" :quantity="item.quantity"/>
         </div>
     </div>
     <div v-else>

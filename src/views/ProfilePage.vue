@@ -40,6 +40,8 @@ async function getUserAddresses(){
     }catch(error){
         console.log(error)
     }
+
+
 }
 
 function changePFP(){

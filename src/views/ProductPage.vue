@@ -2,32 +2,58 @@
 import { useRoute } from 'vue-router';
 import NavHeader from '../components/NavHeader.vue'
 import { onMounted, ref } from 'vue';
-import { getProduct } from '../services/http';
+import { addItems, getProduct } from '../services/http';
 
-const backendUrl= "http://35.196.79.227:8000"
+const backendUrl = "http://35.196.79.227:8000"
 
 const route = useRoute()
 const product = ref({})
 const quantity = ref(1)
+const quantityOptions = ref([])
+const showDropdown = ref(false)
 
-async function getProductSelected(idProd){
+async function getProductSelected(idProd) {
+    try {
+        const result = await getProduct(idProd)
+        product.value = result
+
+        const options = []
+        for (let i = 1; i <= result.stock; i++) {
+            options.push(i)
+        }
+        quantityOptions.value = options
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function addItem(){
     try{
-    const result = await getProduct(idProd)
-    product.value = result
-    console.log(product.value)
+        await addItems({
+            product_id: product.value.id,
+            quantity: quantity.value,
+            unit_price: product.value.price
+        })
+        alert("FOII")
     }catch(error){
         console.log(error)
     }
 }
 
-onMounted(() =>{
+
+function selectQuantity(q) {
+    quantity.value = q
+    showDropdown.value = false
+}
+
+
+
+onMounted(() => {
     getProductSelected(route.params.id)
 })
-
 </script>
-
 <template>
-    <NavHeader/>
+    <NavHeader />
     <main>
         <div class="imgArea">
             <img :src="backendUrl + product.image_path" />
@@ -39,50 +65,110 @@ onMounted(() =>{
         <div class="buyInfos">
             <div class="middleCard">
                 <span>${{ product.price }}</span>
-                <p>Deliver to adress</p>
+                <p>Deliver to address</p>
                 <div v-if="product.stock > 0">
                     <div class="quantity">
                         <p class="inStock">In Stock</p>
-                        <span>Quantity:  </span>
-                        <div >
-                            <select class="counter"></select>
+                        <span>Select Quantity:</span>
+                        <div class="custom-select" @click="showDropdown = !showDropdown">
+                            <div class="selected">
+                                {{ quantity }}
+                                <span class="arrow" :class="{ open: showDropdown }">▼</span>
+                            </div>
+
+                            <ul v-show="showDropdown" class="dropdown">
+                                <li v-for="q in quantityOptions" :key="q" @click.stop="selectQuantity(q)">
+                                    {{ q }}
+                                </li>
+                            </ul>
+
                         </div>
                     </div>
                 </div>
-                
                 <div v-else>
                     <p class="outStock">Out Stock</p>
                 </div>
             </div>
             <div class="finishCard">
                 <button class="buy">Buy Now</button>
-                <button class="cart">Add to Cart </button>
+                <button class="cart"  @click="addItem">Add to Cart</button>
             </div>
         </div>
     </main>
 </template>
 
+
 <style scoped>
 
+.arrow {
+  float: right;
+  font-size: 1rem;
+  margin-left: 10px;
+  color: black;
+}
 
-    .quantity{
-        display: flex;
-        flex-direction: column;
-    }
+.arrow.open {
+  transform: rotate(180deg);
+}
 
-    .counter{
-        border-radius: 20px;
-        border: solid 2px var(--lightBlue);
-        padding: 5px;
-    }
+.quantity {
+    display: flex;
+    flex-direction: column;
+}
 
-    .middleCard{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+.custom-select {
+    position: relative;
+    width: 100%;
+    background-color: var(--lightBlue);
+    border-radius: 20px 20px 0 0 ;
+    cursor: pointer;
+    user-select: none;
+}
 
-    .buy{
+.custom-select:hover {
+    position: relative;
+    width: 100%;
+    background-color: var(--blue1);
+    border-radius: 20px 20px 0 0 ;
+    cursor: pointer;
+    user-select: none;
+}
+
+.selected {
+    padding: 10px;
+    color: black;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 120px;
+    overflow-y: auto;
+    background-color: white;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    z-index: 10;
+}
+
+.dropdown li {
+    padding: 3px 0 10px 10px;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    background-color: #eee;
+}
+
+
+.middleCard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.buy {
     padding: 5px 60px;
     border: var(--lightBlue) 1px solid;
     background: var(--lightBlue);
@@ -93,13 +179,13 @@ onMounted(() =>{
     font-size: 1.5rem;
 }
 
-    .buy:hover{
-        background-color: var(--blue1);
-        border-color: var(--blue1);
-        cursor: pointer;
-    }
+.buy:hover {
+    background-color: var(--blue1);
+    border-color: var(--blue1);
+    cursor: pointer;
+}
 
-.cart{
+.cart {
     padding: 5px 60px;
     border: var(--lightBlue) 1px solid;
     background: none;
@@ -110,78 +196,79 @@ onMounted(() =>{
     font-size: 1.2rem;
 }
 
-.cart:hover{
+.cart:hover {
     border: var(--lightBlue) 1px solid;
     background: var(--lightBlue);
     color: black;
     cursor: pointer;
 }
 
-    .finishCard{
-        display: flex;
-        flex-direction: column;
-        margin-top: 40%;
-        gap: 20px;
-    }
+.finishCard {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40%;
+    gap: 20px;
+}
 
-    .buyInfos{
-        background-color: black;
-        margin-right: 20px;
-        padding: 20px;
-        font-size: 1.2rem;
-        border-radius: 20px;
-    }
+.buyInfos {
+    background-color: black;
+    margin-right: 20px;
+    padding: 20px;
+    font-size: 1.2rem;
+    border-radius: 20px;
+}
 
-    .inStock{
-        color: green;
-        font-weight: bold;
-    }
+.inStock {
+    color: green;
+    font-weight: bold;
+}
 
-    .outStock{
-        color: red;
-        font-weight: bold;
-    }
+.outStock {
+    color: red;
+    font-weight: bold;
+}
 
-    span{
-        color: var(--blue1);
-        font-family: "openSans";
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
+span {
+    color: var(--blue1);
+    font-family: "openSans";
+    font-weight: bold;
+    font-size: 1.5rem;
+}
 
-    .imgArea{
-        position: relative;
-        height: 450px;
-        overflow: hidden; 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #85858515;
-        border-radius: 20px;
-    }
+.imgArea {
+    position: relative;
+    height: 450px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #85858515;
+    border-radius: 20px;
+}
 
-    .productInfo{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+.productInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-    h1, p{
-        font-family: "openSans";
-        color: white;
-    }
+h1,
+p {
+    font-family: "openSans";
+    color: white;
+}
 
-    img{
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-    }
+img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
 
-    main{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap:50px;
-    }
+main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+}
 </style>

@@ -1,20 +1,58 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getCartItems, getProduct, getProducts } from '../../services/http';
+import { deleteInCart, getCartItems, getProduct, getProducts, updateQnt } from '../../services/http';
 
 const props = defineProps({
-    prodID: Number
+    prodID: Number,
+    quantity: Number
 })
 
 const backendUrl= "http://35.196.79.227:8000"
-
 const product = ref({})
+const localQuantity = ref(props.quantity)
+
 
 async function getInfosProduct(){
     try{
             const result = await getProduct(props.prodID)
             product.value = result
             
+    }catch(error){
+        console.log(error)
+    }
+}
+
+
+
+async function increaseItem(){
+    localQuantity.value ++
+    try{
+        await updateQnt({
+            product_id: props.prodID,
+            quantity: localQuantity.value
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
+
+async function decreaseItem(){
+    localQuantity.value--
+    try {
+        await updateQnt({
+            product_id: props.prodID,
+            quantity: localQuantity.value
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function deleteProd(){
+    try{
+        await deleteInCart({
+            product_id: props.prodID
+        })
     }catch(error){
         console.log(error)
     }
@@ -34,16 +72,49 @@ onMounted( () => {
         <div class="productInfo">    
             <div class="top">
                 <h1>{{ product.name }}</h1>
-                <h1>${{ product.price }}</h1>
+                <h1>${{ product.price * localQuantity}}</h1>
             </div>
             <div class="quantity">
-                <h1>a</h1>
+                <img src="@/assets/icons/lixo.svg" class="trash" @click="deleteProd" v-if="localQuantity < 1">
+                <button class="inc-dec" @click="decreaseItem" v-else>-</button>
+                <h1>{{ localQuantity }}</h1>
+                <button class="inc-dec" @click="increaseItem" v-if="localQuantity <= product.stock">+</button>
+                <button class="inc-decFalse" v-else>+</button>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+    .trash{
+        width: 25px;
+        cursor: pointer;
+    }
+
+    .inc-dec:hover{
+        color: var(--blue1);
+        cursor: pointer;
+    }
+
+    .inc-dec{
+        font-size: 2.5rem;
+        background-color: black;
+        border: none;
+        color: var(--lightBlue);
+    }
+
+    .inc-decFalse:hover{
+        color: var(--gray);
+        cursor: pointer;
+    }
+
+    .inc-decFalse{
+        font-size: 2.5rem;
+        background-color: black;
+        border: none;
+        color: var(--lightGray);
+    }
+
     img{
         max-width: 100%;
         max-height: 100%;
@@ -90,6 +161,12 @@ onMounted( () => {
 
     .quantity {
     margin-top: auto;
+    display: flex;
+    width: 20%;
+    justify-content: space-around;
+    border: 1px solid var(--lightBlue);
+    padding: 5px;
+    border-radius: 20px;
 }
 
 </style>

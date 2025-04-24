@@ -5,7 +5,6 @@ const API = axios.create({
     baseURL: 'http://35.196.79.227:8000/'
 })
 
-// Interceptor para injetar o token automaticamente
 API.interceptors.request.use((config) => {
     const authStore = useAuthStore()
 
@@ -167,3 +166,17 @@ export async function getCartItems() {
     return response.data
 }
 
+export async function addItems(payload) {
+    const response = await API.post('cart/items', payload)
+    return response.data
+}
+
+export async function updateQnt(payload) {
+    const response = await API.put('cart/items', payload)
+    return response.data
+}
+
+export async function deleteInCart(data) {
+    const response = await API.delete('cart/items', {data:data})
+    return response.data
+}
