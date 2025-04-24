@@ -44,8 +44,8 @@ onMounted(() =>{
                     <div class="quantity">
                         <p class="inStock">In Stock</p>
                         <span>Quantity:  </span>
-                        <div class="counter">
-                            <span>{{ quantity }}</span>
+                        <div >
+                            <select class="counter"></select>
                         </div>
                     </div>
                 </div>
@@ -63,6 +63,8 @@ onMounted(() =>{
 </template>
 
 <style scoped>
+
+
     .quantity{
         display: flex;
         flex-direction: column;
@@ -71,6 +73,7 @@ onMounted(() =>{
     .counter{
         border-radius: 20px;
         border: solid 2px var(--lightBlue);
+        padding: 5px;
     }
 
     .middleCard{
