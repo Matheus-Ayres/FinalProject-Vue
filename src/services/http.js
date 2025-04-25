@@ -180,3 +180,9 @@ export async function deleteInCart(data) {
     const response = await API.delete('cart/items', {data:data})
     return response.data
 }
+
+export async function clearCartItems() {
+    const response = await API.delete('cart/clear')
+    return response.data
+}
+

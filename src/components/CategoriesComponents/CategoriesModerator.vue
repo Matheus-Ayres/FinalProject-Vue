@@ -8,7 +8,24 @@ import AllProductCards from '../ProductsComponents/AllProductCards.vue';
 const categories = ref({})
 const idCat = ref(null)
 
+const allProducts = ref([])
 
+async function getProductsAndCategories() {
+    try {
+        const [cats, products] = await Promise.all([
+            getCategories(),
+            getAllProducts()
+        ])
+        categories.value = cats
+        allProducts.value = products
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function countProducts(catId) {
+    return allProducts.value.filter(p => p.category_id === catId).length
+}
 
 async function myCategories(){
     try{
@@ -28,6 +45,7 @@ function allProd(){
 
 onMounted(() => {
     myCategories()
+    getProductsAndCategories()
 })
 </script>
 
@@ -35,18 +53,17 @@ onMounted(() => {
     <main>
         <div class="catsPosition">
             <div @click="allProd" class="allCat">
-                All categories
+                All categories ({{ allProducts.length }})
             </div>
             <div  v-for="cat in categories" :key="cat.id">
                 <div> 
                         <button class="categoryName" @click="idCat = cat.id" >
-                            {{ cat.name }}
+                            {{ cat.name }} ({{ countProducts(cat.id) }})
                         </button>
                 </div> 
             </div>
         </div>
 
-        
         <ProductCards v-if="idCat != null" :key="idCat" :catId="idCat" /> 
         <AllProductCards v-else/>
     </main>

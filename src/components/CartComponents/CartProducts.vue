@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { deleteInCart, getCartItems, getProduct, getProducts, updateQnt } from '../../services/http';
+import { clearCartItems, deleteInCart, getCartItems, getProduct, getProducts, updateQnt } from '../../services/http';
 
 const props = defineProps({
     prodID: Number,
@@ -10,7 +10,7 @@ const props = defineProps({
 const backendUrl= "http://35.196.79.227:8000"
 const product = ref({})
 const localQuantity = ref(props.quantity)
-
+const emit = defineEmits(['updated'])
 
 async function getInfosProduct(){
     try{
@@ -31,6 +31,7 @@ async function increaseItem(){
             product_id: props.prodID,
             quantity: localQuantity.value
         })
+        emit('updated')
     }catch(error){
         console.log(error)
     }
@@ -43,6 +44,7 @@ async function decreaseItem(){
             product_id: props.prodID,
             quantity: localQuantity.value
         })
+        emit('updated')
     } catch (error) {
         console.log(error)
     }
@@ -53,10 +55,13 @@ async function deleteProd(){
         await deleteInCart({
             product_id: props.prodID
         })
+        emit('updated')
+        
     }catch(error){
         console.log(error)
     }
 }
+
 
 onMounted( () => {
     getInfosProduct()
@@ -66,26 +71,51 @@ onMounted( () => {
 
 <template>
     <div class="product">
-        <div class="imgArea">
-            <img :src="backendUrl + product.image_path" />
-        </div>
+        
+        <RouterLink :to="'/ProductPage/' + product.id" class="card">
+            <div class="imgArea">
+                <img :src="backendUrl + product.image_path" />
+            </div>
+        </RouterLink>
         <div class="productInfo">    
             <div class="top">
                 <h1>{{ product.name }}</h1>
-                <h1>${{ product.price * localQuantity}}</h1>
+                <h1>${{ (product.price * localQuantity).toFixed(2) }}</h1>
             </div>
-            <div class="quantity">
-                <img src="@/assets/icons/lixo.svg" class="trash" @click="deleteProd" v-if="localQuantity < 1">
-                <button class="inc-dec" @click="decreaseItem" v-else>-</button>
-                <h1>{{ localQuantity }}</h1>
-                <button class="inc-dec" @click="increaseItem" v-if="localQuantity <= product.stock">+</button>
-                <button class="inc-decFalse" v-else>+</button>
+            <div class="edit">
+                <div class="quantity">
+                    <img src="@/assets/icons/lixo.svg" class="trash" @click="deleteProd" v-if="localQuantity <= 1">
+                    <button class="inc-dec" @click="decreaseItem" v-else>-</button>
+                    <h1>{{ localQuantity }}</h1>
+                    <button class="inc-dec" @click="increaseItem" v-if="localQuantity <= product.stock">+</button>
+                    <button class="inc-decFalse" v-else>+</button>
+                </div>
+                <span class="del" @click="deleteProd">Remove</span>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+    .del{
+        font-family: "openSans";
+        color: white;
+        align-self: end;
+        text-decoration: underline;
+    }
+
+    .edit{
+        margin-top: auto;
+        display: flex;
+        gap: 20px;
+        width: 50%;
+    }
+
+    .del:hover{
+        color: red;
+        cursor: pointer;
+    }
+
     .trash{
         width: 25px;
         cursor: pointer;
@@ -144,7 +174,7 @@ onMounted( () => {
     h1{
         font-family: "openSans";
         font-weight: bold;
-        color: var(--lightBlue);
+        color: white;
     }
 
     .top{
@@ -160,11 +190,11 @@ onMounted( () => {
     }
 
     .quantity {
-    margin-top: auto;
+    width: 50%;
     display: flex;
-    width: 20%;
     justify-content: space-around;
-    border: 1px solid var(--lightBlue);
+    align-items: center;
+    border: 1px solid white;
     padding: 5px;
     border-radius: 20px;
 }

@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router';
 import NavHeader from '../components/NavHeader.vue'
 import { onMounted, ref } from 'vue';
-import { addItems, getProduct } from '../services/http';
+import { addItems, getCartItems, getProduct, updateQnt } from '../services/http';
 
 const backendUrl = "http://35.196.79.227:8000"
 
@@ -11,6 +11,7 @@ const product = ref({})
 const quantity = ref(1)
 const quantityOptions = ref([])
 const showDropdown = ref(false)
+const cart = ref({})
 
 async function getProductSelected(idProd) {
     try {
@@ -27,19 +28,47 @@ async function getProductSelected(idProd) {
     }
 }
 
-async function addItem(){
+async function userItems (){
     try{
-        await addItems({
-            product_id: product.value.id,
-            quantity: quantity.value,
-            unit_price: product.value.price
-        })
-        alert("FOII")
+        const result = await getCartItems()
+        cart.value = result
+        console.log(cart.value)
     }catch(error){
         console.log(error)
     }
 }
 
+async function addItem(){
+    try {
+        let exist = false
+        for (let i = 0; i < cart.value.items.length; i++) {
+            const item = cart.value.items[i]
+            console.log(cart.value.items)
+
+            if (item.product_id === product.value.id) {
+                await updateQnt({
+                    product_id: product.value.id,
+                    quantity: item.quantity + quantity.value
+                })
+                exist = true
+                break
+            }
+        }
+
+        if (!exist) {
+            await addItems({
+                product_id: product.value.id,
+                quantity: quantity.value,
+                unit_price: product.value.price
+            })
+        }
+
+        alert("Item added to Cart")
+    } catch(error) {
+        console.log(error)
+    }
+
+}
 
 function selectQuantity(q) {
     quantity.value = q
@@ -50,6 +79,7 @@ function selectQuantity(q) {
 
 onMounted(() => {
     getProductSelected(route.params.id)
+    userItems()
 })
 </script>
 <template>
