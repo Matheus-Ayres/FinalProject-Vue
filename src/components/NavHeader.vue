@@ -36,7 +36,7 @@ const currentCart = ref(cart1.value)
         </diV>
 
         <div v-else-if="user.isAuthenticated && user.user.role == 'ADMIN'" class="loginPosition">
-            <RouterLink to="/AdminArea" class="loginStyle">
+            <RouterLink to="/AdminArea/Categories" class="loginStyle">
                 <p>
                     Admin Area
                 </p>

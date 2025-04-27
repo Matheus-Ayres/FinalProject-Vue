@@ -186,3 +186,29 @@ export async function clearCartItems() {
     return response.data
 }
 
+// ========== COUPONS ==========
+
+export async function newCoupon(payload) {
+    const response = await API.post('coupons/', payload)
+    return response.data
+}
+
+export async function getCoupons() {
+    const response = await API.get('coupons/')
+    return response.data
+}
+
+export async function updateCoupon(couponID, payload) {
+    const response = await API.put(`coupons/${couponID}`, payload)
+    return response.data
+}
+
+export async function getCouponsByID(couponID) {
+    const response = await API.get(`coupons/${couponID}`)
+    return response.data
+}
+
+export async function deleteCoupon(couponID) {
+    const response = await API.delete(`coupons/${couponID}`)
+    return response.data
+}

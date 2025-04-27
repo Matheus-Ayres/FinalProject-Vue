@@ -1,7 +1,10 @@
 <script setup>
 
 import NavHeader from '@/components/NavHeader.vue';
-import AdminCategory from './Admin/AdminCategory.vue';
+import AdminCategory from '../Admin/AdminCategory.vue';
+import CreateAddresses from '@/components/AddressesComponents/CreateAddresses.vue';
+import CreateCoupon from '@/components/CouponComponent/CreateCoupon.vue';
+import CouponsCard from '@/components/CouponComponent/CouponsCard.vue';
 
 
 </script>
@@ -21,7 +24,10 @@ import AdminCategory from './Admin/AdminCategory.vue';
         </RouterLink>
     </div>
     <main>
-        <AdminCategory/>
+        <CreateCoupon/>
+        <div class="catPosition">
+            <CouponsCard/>
+        </div>
     </main>
 </template>
 
