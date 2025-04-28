@@ -39,7 +39,7 @@ onMounted( () => {
         
             <div class="catalog">
                 <div v-for="infos in product" :key="infos.id">
-                    <EditProduct :catId="infos.category.id" :prodId="infos.id" v-if="user.isAuthenticated && user.user.role == 'MODERATOR' && route.path == '/ModeratorArea'"/>
+                    <EditProduct :catId="infos.category.id" :prodId="infos.id" v-if="user.isAuthenticated && (user.user.role == 'MODERATOR' || user.user.role == 'ADMIN')  && route.path == '/ModeratorArea'"/>
                     <RouterLink v-if="user.isAuthenticated" :to="'/ProductPage/' + infos.id" class="card">
                         <div class="imgArea">
                             <img :src="backendUrl + infos.image_path" />

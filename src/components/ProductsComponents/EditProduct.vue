@@ -9,6 +9,7 @@ const props = defineProps({
     catId: Number
 })
 
+const user = useAuthStore
 const product = ref({})
 const modal = ref(false)
 const modalDelete = ref(false)
@@ -93,6 +94,8 @@ function closeModalDelete(){
 }
 
 async function deleteProduct(){
+    console.log(user)
+
     try{
         if(verify.value == 'DELETE'){
             await deleteProducts(props.prodId)

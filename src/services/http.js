@@ -212,3 +212,10 @@ export async function deleteCoupon(couponID) {
     const response = await API.delete(`coupons/${couponID}`)
     return response.data
 }
+
+// ========== COUPONS ==========
+
+export async function newOrder(payload) {
+    const response = await API.post('orders/', payload)
+    return response.data
+}

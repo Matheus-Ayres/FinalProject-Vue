@@ -127,7 +127,7 @@ onMounted( () => {
     }
 
     .inc-dec{
-        font-size: 2.5rem;
+        font-size: 2rem;
         background-color: black;
         border: none;
         color: var(--lightBlue);
@@ -139,7 +139,7 @@ onMounted( () => {
     }
 
     .inc-decFalse{
-        font-size: 2.5rem;
+        font-size: 2rem;
         background-color: black;
         border: none;
         color: var(--lightGray);
@@ -155,7 +155,7 @@ onMounted( () => {
 
     .imgArea{
         position: relative;
-        height: 200px;
+        height: 180px;
         overflow: hidden; 
         display: flex;
         justify-content: center;
@@ -166,7 +166,7 @@ onMounted( () => {
 
     .product{
         display: grid;
-        grid-template-columns: 20% 75%;
+        grid-template-columns: 15% 85%;
         gap: 30px;
 
     }
@@ -175,6 +175,7 @@ onMounted( () => {
         font-family: "openSans";
         font-weight: bold;
         color: white;
+        
     }
 
     .top{

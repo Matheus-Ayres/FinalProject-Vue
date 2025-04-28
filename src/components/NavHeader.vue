@@ -41,6 +41,11 @@ const currentCart = ref(cart1.value)
                     Admin Area
                 </p>
             </RouterLink>
+            <RouterLink class="loginStyle" to="/ModeratorArea">
+                <p>
+                    Moderator Area
+                </p>    
+            </RouterLink>
             <RouterLink class="loginStyle" to="/RegisterModerator">
                 <p>
                     Register Moderator

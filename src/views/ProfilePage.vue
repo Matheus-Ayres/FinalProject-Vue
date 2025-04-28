@@ -40,8 +40,6 @@ async function getUserAddresses(){
     }catch(error){
         console.log(error)
     }
-
-
 }
 
 function changePFP(){
@@ -72,7 +70,7 @@ onMounted(() =>{
         <div class="userInfos">
                 <div>
                     <div class="Image" @click="changePFP">
-                        <div v-if="user.image_path != 	'/uploads/defaults/no_profile_image.png'">
+                        <div v-if="user.image_path != '/uploads/defaults/no_profile_image.png'">
                             <img class="profileImage" :src="backendUrl + user.image_path"/>
                             <div class="overlay"></div>
                         </div>

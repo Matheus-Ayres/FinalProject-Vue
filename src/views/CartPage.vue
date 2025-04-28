@@ -4,6 +4,7 @@ import NavHeader from '../components/NavHeader.vue';
 import { clearCartItems, getCart, getCartItems } from '../services/http';
 import CartProducts from '../components/CartComponents/CartProducts.vue';
 import CartEmpty from '../components/CartComponents/CartEmpty.vue';
+import NewOrder from '@/components/OrderComponents/NewOrder.vue';
 
 const cart = ref({})
 
@@ -45,13 +46,21 @@ onMounted(() => {
             <img src="@/assets/icons/shopbasket.png">
             <p class="sub">Subtotal ({{ cart.items.length }} items): ${{ cart.total_amount }}</p>
         </div>
+        <div class="order">
+            <NewOrder/>
+        </div>
     </div>
     <div v-else>
         <CartEmpty/>
     </div>
+
 </template>
 
 <style scoped>
+    .order{
+        margin-top: 10px;
+    }
+
     img{
         width: 50px;
     }
@@ -62,6 +71,7 @@ onMounted(() => {
         justify-content: end;
         gap: 10px;
         margin-top: 10px;
+        border-bottom: solid 1px var(--blue1);
     }
 
     .sub{
@@ -78,7 +88,7 @@ onMounted(() => {
 
     .cart{
         background-color: black;
-        margin: 20px 60px;
+        margin: 10px 60px;
         padding: 30px;
         display: flex;
         flex-direction: column;

@@ -12,8 +12,12 @@ async function coupons(){
     const result = await getCoupons();
     coupon.value = result
     console.log(coupon.value)
-
 }
+
+function formatDate(dateString) {
+    return new Intl.DateTimeFormat('en-US').format(new Date(dateString));
+}
+
 
 onMounted(() => {
     coupons()
@@ -31,7 +35,7 @@ onMounted(() => {
                     <p>
                         Discount percentage: %{{ c.discount_percentage }}
                     </p>
-                    <p>Coupon end: {{ c.end_date }}</p>
+                    <p>Coupon end: {{ formatDate(c.end_date) }}</p>
                     <EditCoupon :couponId="c.id"/>
             </div>
         </div>
