@@ -1,17 +1,31 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import cartIcon1 from '@/assets/icons/cart.png'
 import cartIcon2 from '@/assets/icons/cart2.png'
+import { getUser } from '../services/http';
 
 
 const user = useAuthStore()
 const cart1 = ref(cartIcon1)
 const cart2 = ref(cartIcon2)
+const backendUrl= "http://35.196.79.227:8000"
+const userI = ref({})
 
-const currentCart = ref(cart1.value)
+async function getUserInfos(){
+    try{
+        const result = await getUser()
+        userI.value = result.data
+        
+    }catch(error){
+        console.log(error)
+    }
+}
 
+onMounted(() =>{
+    getUserInfos()
+})
 
 </script>
 
@@ -28,7 +42,7 @@ const currentCart = ref(cart1.value)
                     LOGIN
                 </p>
             </RouterLink>
-            <RouterLink to="Register" class="registerStyle">
+            <RouterLink to="Register">
                 <p >
                     REGISTER
                 </p>
@@ -51,15 +65,18 @@ const currentCart = ref(cart1.value)
                     Register Moderator
                 </p>    
             </RouterLink>
-            <RouterLink class="registerStyle" to="/Profile">
-                <p>
-                    Profile
-                </p>    
+            <RouterLink to="/Profile">
+                <img class="profileImage" :src="backendUrl + userI.image_path"/> 
             </RouterLink>
         </div>
         
         <div v-else-if="user.isAuthenticated && user.user.role == 'MODERATOR'" class="loginPosition">
+            <RouterLink  to="/OrderPage">
+                <p class="loginStyle">Orders</p>
+                <img class="order" src="@/assets/icons/order.png">
+            </RouterLink>
             <RouterLink to="/CartPage" class="cart-wrapper">
+                <p class="loginStyle"> Cart</p>
                 <img class="cart cart-default" :src="cart1" alt="Cart icon">
                 <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
             </RouterLink>
@@ -68,29 +85,55 @@ const currentCart = ref(cart1.value)
                     Moderator Area
                 </p>    
             </RouterLink>
-            <RouterLink class="registerStyle" to="/Profile">
-                <p>
-                    Profile
-                </p>    
+            <RouterLink to="/Profile">
+                <div class="imgArea">
+                    <img class="profileImage" :src="backendUrl + userI.image_path"/>  
+                </div>    
             </RouterLink>
         </div>
 
         <div v-else class="loginPosition">
-            <RouterLink to="/CartPage" class="cart-wrapper">
-                <img class="cart cart-default" :src="cart1" alt="Cart icon">
-                <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+            <RouterLink class="none" to="/OrderPage">
+                <p class="loginStyle">Orders</p>
+                <img class="order" src="@/assets/icons/order.png">
+            </RouterLink>
+            <RouterLink class="none" to="/CartPage" >
+                <p class="loginStyle"> Cart</p>
+                <div class="cart-wrapper">
+                    <img class="cart cart-default" :src="cart1" alt="Cart icon">
+                    <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+                </div>
             </RouterLink>
 
-            <RouterLink class="registerStyle" to="/Profile">
-                <p>
-                    Profile
-                </p>    
+            <RouterLink to="/Profile">
+                <div class="imgArea">
+                    <img class="profileImage" :src="backendUrl + userI.image_path"/>  
+                </div>    
             </RouterLink>
         </div>
     </nav>
 </template>
 
 <style scoped>
+    .none{
+        text-decoration: none;
+    }
+
+    .order{
+        width: 65%;
+    }
+
+    .imgArea{
+        width: 70px;
+        overflow: hidden;
+    }
+
+    .profileImage {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
     .cart-wrapper {
     position: relative;
     width: 50px;

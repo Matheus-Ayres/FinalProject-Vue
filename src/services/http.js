@@ -213,9 +213,14 @@ export async function deleteCoupon(couponID) {
     return response.data
 }
 
-// ========== COUPONS ==========
+// ========== ORDERS ==========
 
 export async function newOrder(payload) {
     const response = await API.post('orders/', payload)
+    return response.data
+}
+
+export async function getOrders() {
+    const response = await API.get('orders/')
     return response.data
 }

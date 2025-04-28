@@ -1,6 +1,7 @@
 <script setup>
 import { getAddresses, getCoupons, newOrder } from '@/services/http';
 import { onMounted, ref } from 'vue';
+import { getCartItems } from '../../services/http';
 
 const addresses = ref({})
 const addressChoosed = ref({})
@@ -8,6 +9,7 @@ const couponsList = ref([])
 const couponCode = ref('')
 const couponStatus = ref('') 
 const couponID = ref(null)
+
 
 async function getUserAddresses() {
     try {
@@ -37,25 +39,22 @@ function applyCoupon() {
 }
 
 async function placeOrder(){
-    console.log("Address ID: ", addressChoosed.value.id);
-    console.log("Coupon ID: ", couponID.value);
-
-
-
     try{
         await newOrder({
             address_id: addressChoosed.value.id,
             coupon_id: couponID.value
-
         })
+        window.location.reload()
     }catch(error){
         console.log(error)
     }
 }
 
+
 onMounted(() => {
     getUserAddresses()
     fetchCoupons()
+    
 })
 </script>
 
