@@ -224,3 +224,23 @@ export async function getOrders() {
     const response = await API.get('orders/')
     return response.data
 }
+
+export async function getOrderById(orderID) {
+    const response = await API.get(`orders/${orderID}`)
+    return response.data
+}
+
+export async function changeOrderStatus(orderID, payload) {
+    const response = await API.put(`orders/${orderID}`, payload)
+    return response.data
+}
+
+export async function getClientOrders() {
+    const response = await API.get(`orders/all/${8}`)
+    return response.data
+}
+
+export async function cancelOrder(orderID) {
+    const response = await API.delete(`orders/${orderID}`)
+    return response.data
+}

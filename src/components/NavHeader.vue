@@ -42,7 +42,7 @@ onMounted(() =>{
                     LOGIN
                 </p>
             </RouterLink>
-            <RouterLink to="Register">
+            <RouterLink class="registerStyle" to="Register">
                 <p >
                     REGISTER
                 </p>
@@ -71,14 +71,16 @@ onMounted(() =>{
         </div>
         
         <div v-else-if="user.isAuthenticated && user.user.role == 'MODERATOR'" class="loginPosition">
-            <RouterLink  to="/OrderPage">
+            <RouterLink class="none" to="/OrderPage">
                 <p class="loginStyle">Orders</p>
                 <img class="order" src="@/assets/icons/order.png">
             </RouterLink>
-            <RouterLink to="/CartPage" class="cart-wrapper">
+            <RouterLink class="none" to="/CartPage" >
                 <p class="loginStyle"> Cart</p>
-                <img class="cart cart-default" :src="cart1" alt="Cart icon">
-                <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+                <div class="cart-wrapper">
+                    <img class="cart cart-default" :src="cart1" alt="Cart icon">
+                    <img class="cart cart-hover" :src="cart2" alt="Cart hover icon">
+                </div>
             </RouterLink>
             <RouterLink class="loginStyle" to="/ModeratorArea">
                 <p>
