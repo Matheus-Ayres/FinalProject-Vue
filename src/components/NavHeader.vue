@@ -43,7 +43,7 @@ onMounted(() =>{
                 </p>
             </RouterLink>
             <RouterLink class="registerStyle" to="Register">
-                <p >
+                <p>
                     REGISTER
                 </p>
             </RouterLink>
@@ -66,7 +66,9 @@ onMounted(() =>{
                 </p>    
             </RouterLink>
             <RouterLink to="/Profile">
-                <img class="profileImage" :src="backendUrl + userI.image_path"/> 
+                <div class="imgArea">
+                    <img class="profileImage" :src="backendUrl + userI.image_path"/>  
+                </div>    
             </RouterLink>
         </div>
         
