@@ -120,7 +120,7 @@ onMounted(() => {
                 </div>
             </div>
             <div class="finishCard">
-                <button class="buy">Buy Now</button>
+                
                 <button class="cart"  @click="addItem">Add to Cart</button>
             </div>
         </div>

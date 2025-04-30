@@ -2,6 +2,7 @@
 import { getAddresses, getCoupons, newOrder } from '@/services/http';
 import { onMounted, ref } from 'vue';
 import { getCartItems } from '../../services/http';
+import CreateAddresses from '@/components/AddressesComponents/CreateAddresses.vue';
 
 const addresses = ref({})
 const addressChoosed = ref({})
@@ -64,11 +65,16 @@ onMounted(() => {
     <form @submit.prevent="placeOrder" class="order">
         <div>
             <h1>Deliver to:</h1>
-            <select required v-model="addressChoosed">
+            <select v-if="addresses && addresses.length > 0" required v-model="addressChoosed">
+
                 <option v-for="address in addresses" :key="address.id" :value="address">
                     {{ address.number }}, {{ address.street }} - {{ address.city }}, {{ address.state }}, {{ address.zip }}
                 </option>
             </select>
+            <div v-else>
+                <p >No addresses available</p>
+                <CreateAddresses @addressCreated="getUserAddresses" />
+            </div>
         </div>
 
         <div>

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { createAddress } from '../../services/http'
+import { defineEmits } from 'vue'
 
 
 const product = ref({})
@@ -53,6 +54,8 @@ async function newAddress(){
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
+    
 }
 
 

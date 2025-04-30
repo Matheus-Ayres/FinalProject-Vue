@@ -46,6 +46,7 @@ async function changeCoupon(){
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
 }
 
 
@@ -101,6 +102,7 @@ async function delCoupon(){
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
 }
 
 

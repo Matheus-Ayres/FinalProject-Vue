@@ -6,6 +6,7 @@ import { getClientOrders, getOrders } from '../services/http';
 import OrderCards from '../components/OrderComponents/OrderCards.vue';
 import EditOrder from '../components/OrderComponents/EditOrder.vue';
 import CancelOrder from '../components/OrderComponents/CancelOrder.vue';
+import OrdersADM from '../components/OrderComponents/OrdersADM.vue';
 
 const orders = ref([])
 const clientOrder = ref({})
@@ -22,84 +23,57 @@ async function myOrders() {
     }
 }
 
-async function clientOrders() {
-    try {
-        const result = await getClientOrders()
-        clientOrder.value = result
-        
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-
-
 onMounted(() => {
     myOrders()
-    clientOrders()
-    
 })
 </script>
 
 <template>
     <NavHeader />
-    <main v-if="user.user.role == 'CLIENT'">
-    <h1>My orders</h1>
-    <div class="orders">
-        <div v-for="order in orders.filter(order => order.status !== 'CANCELED')" :key="order.id" class="cards">
-            <div v-if="order.status == 'PENDING' || order.status == 'PROCESSING' || order.status == 'SHIPPED'">
-                <div class="status">
-                    <span :class="{
-                        pending: order.status == 'PENDING',
-                        processing: order.status == 'PROCESSING',
-                        shipped: order.status == 'SHIPPED',
-                    }">
-                        {{ order.status }}
-                    </span>
-                    <CancelOrder :orderID="order.id"/>
-                </div>
-                <OrderCards :products="order.products" />
-            </div>
-        </div>
-    </div>
-
-    <h1>Orders Completed</h1>
-    <div class="orders">
-        <div v-for="order in orders.filter(order => order.status === 'COMPLETED')" :key="order.id" class="cards">
-            <div class="status">
-                <span :class="{
-                    completed: order.status == 'COMPLETED',
-                }">
-                    {{ order.status }}
-                </span>
-            </div>
-            <OrderCards :products="order.products" />
-        </div>
-    </div>
-</main>
-
-
-    <main v-else>
-        <h1>Clients Orders</h1>
+    <main v-if="user.user.role === 'CLIENT' && orders.some(order => order.status !== 'CANCELED')">
+        <h1 v-if="orders.some(order => order.status !== 'CANCELED')">My orders</h1>
         <div class="orders">
-            <div v-for="order in clientOrder" :key="order.id" class="cards">
+            <div v-for="order in orders.filter(order => order.status !== 'CANCELED')" :key="order.id" class="cards">
+                <div v-if="order.status == 'PENDING' || order.status == 'PROCESSING' || order.status == 'SHIPPED'">
+                    <div class="status">
+                        <span :class="{
+                            pending: order.status == 'PENDING',
+                            processing: order.status == 'PROCESSING',
+                            shipped: order.status == 'SHIPPED',
+                        }">
+                            {{ order.status }}
+                        </span>
+                        <CancelOrder :orderID="order.id"/>
+                    </div>
+                    <OrderCards :products="order.products" />
+                </div>
+            </div>
+        </div>
+
+        <h1>Orders Completed</h1>
+        <div class="orders">
+            <div v-for="order in orders.filter(order => order.status === 'COMPLETED')" :key="order.id" class="cards">
                 <div class="status">
                     <span :class="{
-                        pending: order.status == 'PENDING',
-                        processing: order.status == 'PROCESSING',
-                        shipped: order.status == 'SHIPPED',
                         completed: order.status == 'COMPLETED',
-                        canceled: order.status == 'CANCELED'
                     }">
                         {{ order.status }}
                     </span>
-                    <EditOrder :orderID="order.id"/>
                 </div>
                 <OrderCards :products="order.products" />
             </div>
         </div>
+
+    
+        
     </main>
+    
+    <main v-else-if="user.user.role === 'CLIENT'" class="orders">
+        <h1>There are no orders</h1>
+    </main>
+    <OrdersADM v-if="user.user.role === 'MODERATOR'" />
+
+
 </template>
 
 
@@ -113,7 +87,7 @@ onMounted(() => {
 .cards {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0px;
 }
 
 

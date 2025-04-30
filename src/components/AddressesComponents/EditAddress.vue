@@ -53,6 +53,7 @@ async function editAddress() {
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
 }
 
 async function getAddress() {
@@ -90,6 +91,8 @@ async function deleteAdress(){
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
+    closeModalDelete()
 }
 
 onMounted(()=>{

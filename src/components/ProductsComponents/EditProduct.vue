@@ -9,7 +9,7 @@ const props = defineProps({
     catId: Number
 })
 
-const user = useAuthStore
+const user = useAuthStore()
 const product = ref({})
 const modal = ref(false)
 const modalDelete = ref(false)
@@ -45,6 +45,8 @@ async function editProduct() {
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
+    closeModal()
 }
 
 async function editStockProduct() {
@@ -107,6 +109,8 @@ async function deleteProduct(){
     }catch(error){
         console.log(error)
     }
+    
+    closeModalDelete()
 }
 
 onMounted(() =>{
@@ -118,7 +122,12 @@ onMounted(() =>{
 <template>
     <div class="buttons">
         <button  @click="openModal" class="edit"> EDIT</button>
-        <img @click="openModalDelete" src="../../assets/icons/lixo.svg" class="trash">
+        <img 
+        v-if="user.user.role == 'ADMIN'" 
+        @click="openModalDelete" 
+        src="../../assets/icons/lixo.svg" 
+        class="trash" 
+        />
     </div>
 
     <div v-if="modalDelete" class="modal-open">

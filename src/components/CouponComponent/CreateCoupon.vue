@@ -42,6 +42,8 @@ async function CreateCoupon(){
     }catch(error){
         console.log(error)
     }
+    window.location.reload()
+    closeModal()
 }
 
 

@@ -48,7 +48,7 @@ async function createProduct() {
         console.log(result.status)
 
         if (result.status === 201) {
-            alert("Deu boa!");
+            window.location.reload()
         }
         emit('close')
 
