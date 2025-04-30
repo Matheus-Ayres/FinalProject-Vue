@@ -1,7 +1,7 @@
 <script setup>
 import NavHeader from '@/components/NavHeader.vue';
 import { ref } from 'vue';
-import { register } from '@/services/http';
+import { createCart, register } from '@/services/http';
 import { useAuthStore } from '@/stores/auth.js'
 import router from '@/router';
 import { login } from '../services/http';
@@ -53,6 +53,7 @@ async function submit() {
                 })
 
                     authUser.saveUser(loginResult.data)
+                    await createCart()
                     router.push('/')
                 } 
         }
